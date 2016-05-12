@@ -7,4 +7,4 @@ clean:
 	if [ -d ./.build/ ]; then rm -rf ./.build/; fi
 
 test:
-	./DecisionTree restaurant.csv fulldebug
+	./DecisionTree Input/restaurant.csv fulldebug
