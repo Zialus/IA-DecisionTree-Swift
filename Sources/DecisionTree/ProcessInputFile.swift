@@ -19,8 +19,11 @@ func processFile () {
         let delimiter = "\n"
         let linesList = fileContent!.componentsSeparatedByString(delimiter)
 
-        for line in linesList {
+        for (index,line) in linesList.enumerate() {
 
+
+
+            inputMatrix.append([])
             printfulldebug("\(ANSI.Cyan)~~~~~~~~~~~~~~~~BEGINNING OF LINE~~~~~~~~~~~~~~~~\(ANSI.Reset)")
 
             printfulldebug("\(ANSI.Yellow)$$$$$$--FULL LINE--$$$$$$$\(ANSI.Reset)")
@@ -29,7 +32,24 @@ func processFile () {
 
 
 
+            let delimiter = ","
+            let atributeList = line.componentsSeparatedByString(delimiter)
+            printfulldebug(atributeList)
+
+
+
+            for atribute in atributeList{
+                inputMatrix[index].append(atribute)
+            }
+
+
             printfulldebug("\(ANSI.Cyan)~~~~~~~~~~~~~~~~END OF LINE~~~~~~~~~~~~~~~~~~~~~~\(ANSI.Reset)")
+
+
+
+
+
+
         }
 
         printdebug("")
@@ -37,9 +57,45 @@ func processFile () {
         printdebug(Colors.Green("|-------EVERYTHING HAS BEEN PROCESSED!! HERE IS THE FINAL RESULT-------|"))
         printdebug(Colors.Green("\\----------------------------------------------------------------------/"))
 
-        printdebug("The Database has \(dicionario.count) blablalblalbla: ")
+        printdebug("The Database has \(atributeDictionary.count) blablalblalbla: ")
         printdebug("")
 
     }
+
+}
+
+func processMatrix(matrix: [[String]]) -> () {
+
+
+    // Saved FinalAribute Name
+    let finalCol = inputMatrix[0].count-1
+    finalAtribute = inputMatrix[0][finalCol]
+
+    for (index,line) in matrix.enumerate() where index > 0 {
+
+        for (col,atributeValue) in line.enumerate() where col > 0{
+
+            let atributeName = matrix[0][col]
+
+            if atributeDictionary[atributeName] != nil {
+                atributeDictionary[atributeName]!.insert(atributeValue)
+            } else{
+                atributeDictionary[atributeName] = Set<String>(arrayLiteral:atributeValue)
+            }
+
+            printfulldebug("Index:\(index)")
+
+            printfulldebug("State of the Dictionary so far:\n\(atributeDictionary)\n")
+
+//            if let atributeNameIndex = atributeSet.indexOf(atribute){
+//                inputMatrix[0][atributeNameIndex]
+//                dictionary[temp_atribute] = atribute
+//            }
+
+
+            
+        }
+    }
+
 
 }

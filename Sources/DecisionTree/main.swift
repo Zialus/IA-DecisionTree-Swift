@@ -12,8 +12,12 @@ var filelocation: String = ""
 
 // Global Stuff
 
-var dicionario = [String:[String:Int]]()
 
+var atributeDictionary = [String: Set<String>]()
+
+var finalAtribute: String
+
+var inputMatrix = [[String]]()
 
 // Process the given cmdLine Args
 proccessCmdLineArgs()
@@ -21,7 +25,24 @@ proccessCmdLineArgs()
 // Process the contents of the input file
 processFile()
 
-welcomeMessage()
+//welcomeMessage()
+
+printfulldebug(inputMatrix)
+
+processMatrix(inputMatrix)
+
+printdebug("--------------")
+
+printdebug(atributeDictionary)
+
+printdebug("---------------")
+
+
+
+print(getEntropyNumbers("Type"))
+
+print(getGain("Type"))
+//print(getGain("Est"))
 
 // Menu Loop
 //while true {
