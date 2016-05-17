@@ -1,25 +1,21 @@
-//
-//  Functions.swift
-//  DecisionTree
-//
-//  Created by Raul Ferreira on 5/16/16.
-//  Copyright © 2016 FCUP. All rights reserved.
-//
 
 import Foundation
 
-//func calculateEntropy(matrix: [[String]], atribute: String)->(Int){
-//    let diffValues = atributeDictionary[atribute]!.count
-//    let denum = matrix.count
-//    for i in 1...diffValues {
-//        getEntropyNumbers(i)
-//    }
-//
-//    let num = 5
-//    return denum/num
-//
-//}
+func chooseAtribute(matrix: [[String]])->(String){
 
+    var maxGain = -Double.infinity
+    var maxAtribute = ""
+
+    for (atribute,values) in atributeDictionary{
+
+        if getGain(atribute) > maxGain{
+            maxAtribute = atribute
+            maxGain = getGain(atribute)
+        }
+    }
+
+    return maxAtribute
+}
 
 func getGain(atribute: String) -> (Double) {
 
@@ -57,7 +53,7 @@ func getGain(atribute: String) -> (Double) {
         }
 
         printfulldebug("Sending this to EntropyCalc \(listOfThingsToSendToEntropyCalc) * \(c)")
-        result+=entropyCalc(listOfThingsToSendToEntropyCalc)*c
+        result+=calculateEntropy(listOfThingsToSendToEntropyCalc)*c
     }
 
     return result
@@ -94,7 +90,7 @@ func getEntropyNumbers(atribute: String) -> ([String:[String:Int]]) {
     return dictionary
 }
 
-func entropyCalc(values: [Double]) -> (Double) {
+func calculateEntropy(values: [Double]) -> (Double) {
     var entropy = 0.0
     
     for value in values where value != 0.0 {
