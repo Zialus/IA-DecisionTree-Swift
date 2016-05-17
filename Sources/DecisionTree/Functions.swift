@@ -97,7 +97,7 @@ func getEntropyNumbers(atribute: String) -> ([String:[String:Int]]) {
 func entropyCalc(values: [Double]) -> (Double) {
     var entropy = 0.0
     
-    for value in values {
+    for value in values where value != 0.0 {
         entropy-=value*log2(value)
     }
     
