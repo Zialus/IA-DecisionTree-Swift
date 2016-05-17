@@ -1,7 +1,5 @@
 import Foundation
 
-print("Hello, World!")
-
 // Store debug information that will be given by cmdLine Args
 var DEBUG = false
 var FULLDEBUG = false
@@ -11,13 +9,10 @@ var filelocation: String = ""
 
 
 // Global Stuff
-
-
 var atributeDictionary = [String: Set<String>]()
-
 var finalAtribute: String
-
 var inputMatrix = [[String]]()
+
 
 // Process the given cmdLine Args
 proccessCmdLineArgs()
@@ -39,10 +34,11 @@ printdebug("---------------")
 
 
 
-print(getEntropyNumbers("Type"))
+print(getEntropyNumbers("Pat"))
+print(getGain("Pat"))
 
-print(getGain("Type"))
-//print(getGain("Est"))
+print(getEntropyNumbers("Est"))
+print(getGain("Est"))
 
 // Menu Loop
 //while true {

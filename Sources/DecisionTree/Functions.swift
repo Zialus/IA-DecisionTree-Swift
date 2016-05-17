@@ -26,37 +26,37 @@ func getGain(atribute: String) -> (Double) {
     let entropyDictionary = getEntropyNumbers(atribute)
     var coeficients = [Double]()
 
-    let denuminatorTmp = inputMatrix[0].count-2
-    let denuminator = Double(denuminatorTmp)
+    let denominator = Double( inputMatrix.count-2 )
 
     for (atribute,goalDict) in entropyDictionary {
         var numerator = 0.0
         for (goal,count) in goalDict {
             numerator+=Double(count)
         }
-        coeficients.append(numerator/denuminator)
+        print("num:\(numerator) den: \(denominator)")
+        coeficients.append(numerator/denominator)
     }
 
     var result = 0.0
 
-    for c in coeficients {
-
+    for (c,dictionaryEntry) in Array(zip(coeficients,entropyDictionary)) {
         var listOfThingsToSendToEntropyCalc = [Double]()
 
-        var denuminatorInternal = 0.0
+        var denominatorInternal = 0.0
 
-        for (atribute,goalDict) in entropyDictionary {
-            for (goal,count) in goalDict {
-                denuminatorInternal+=Double(count)
-            }
+        print("Stuff in the dictionary \(dictionaryEntry)")
+
+        let (atribute,restOfDictionary) = dictionaryEntry
+
+        for (goal,count) in restOfDictionary {
+            denominatorInternal+=Double(count)
         }
 
-        for (atribute,goalDict) in entropyDictionary {
-            for (goal,count) in goalDict {
-                listOfThingsToSendToEntropyCalc.append( Double(count)/denuminatorInternal )
-            }
+        for (goal,count) in restOfDictionary {
+            listOfThingsToSendToEntropyCalc.append( Double(count)/denominatorInternal )
         }
 
+        printfulldebug("Sending this to EntropyCalc \(listOfThingsToSendToEntropyCalc) * \(c)")
         result+=entropyCalc(listOfThingsToSendToEntropyCalc)*c
     }
 
@@ -96,10 +96,10 @@ func getEntropyNumbers(atribute: String) -> ([String:[String:Int]]) {
 
 func entropyCalc(values: [Double]) -> (Double) {
     var entropy = 0.0
-
+    
     for value in values {
         entropy-=value*log2(value)
     }
-
+    
     return entropy
 }
