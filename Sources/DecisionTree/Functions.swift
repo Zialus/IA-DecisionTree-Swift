@@ -6,7 +6,9 @@ func chooseAtribute(matrix: [[String]])->(String){
     var maxGain = -Double.infinity
     var maxAtribute = ""
 
-    for (atribute,values) in atributeDictionary{
+    for (atribute,values) in atributeDictionary where atribute != finalAtribute {
+
+        printdebug("\(ANSI.Blue)Atribite Stuff --->\(ANSI.Reset) Atributo: \(atribute) \t Ganho: \(getGain(atribute)) ")
 
         if getGain(atribute) > maxGain{
             maxAtribute = atribute
@@ -56,7 +58,7 @@ func getGain(atribute: String) -> (Double) {
         result+=calculateEntropy(listOfThingsToSendToEntropyCalc)*c
     }
 
-    return result
+    return 1-result
 }
 
 func getEntropyNumbers(atribute: String) -> ([String:[String:Int]]) {
