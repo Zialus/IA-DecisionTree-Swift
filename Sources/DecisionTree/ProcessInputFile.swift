@@ -56,8 +56,8 @@ func processFile () {
         printdebug(Colors.Green("/----------------------------------------------------------------------\\"))
         printdebug(Colors.Green("|-------EVERYTHING HAS BEEN PROCESSED!! HERE IS THE FINAL RESULT-------|"))
         printdebug(Colors.Green("\\----------------------------------------------------------------------/"))
-
-        printdebug("The Database has \(atributeDictionary.count) blablalblalbla: ")
+        printdebug("")
+        printdebug("The Database has \(Colors.Red("\(inputMatrix[0].count-2)")) atributes and \(Colors.Red("\(inputMatrix.count-2)")) examples ")
         printdebug("")
 
     }

@@ -29,7 +29,7 @@ func getGain(atribute: String) -> (Double) {
         for (goal,count) in goalDict {
             numerator+=Double(count)
         }
-        print("num:\(numerator) den: \(denominator)")
+        printfulldebug("num:\(numerator) den: \(denominator)")
         coeficients.append(numerator/denominator)
     }
 
@@ -40,7 +40,7 @@ func getGain(atribute: String) -> (Double) {
 
         var denominatorInternal = 0.0
 
-        print("Stuff in the dictionary \(dictionaryEntry)")
+        printfulldebug("Stuff in the dictionary \(dictionaryEntry)")
 
         let (atribute,restOfDictionary) = dictionaryEntry
 

@@ -34,11 +34,14 @@ printdebug("---------------")
 
 
 
-print(getEntropyNumbers("Pat"))
-print(getGain("Pat"))
+//print(getEntropyNumbers("Pat"))
+//print(getGain("Pat"))
+//
+//print(getEntropyNumbers("Est"))
+//print(getGain("Est"))
 
-print(getEntropyNumbers("Est"))
-print(getGain("Est"))
+
+print("Chosen Atribute: \(chooseAtribute(inputMatrix))")
 
 // Menu Loop
 //while true {
