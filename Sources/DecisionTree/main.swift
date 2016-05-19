@@ -10,9 +10,10 @@ var filelocation: String = ""
 
 // Global Stuff
 var atributeDictionary = [String: Set<String>]()
-var finalAtribute: String
+var finalAtribute: String! = nil
 var inputMatrix = [[String]]()
 
+var atributeSet = Set<String>()
 
 // Process the given cmdLine Args
 proccessCmdLineArgs()
@@ -41,7 +42,19 @@ printdebug("---------------")
 //print(getGain("Est"))
 
 
-print("Chosen Atribute: \(chooseAtribute(inputMatrix))")
+//print("Chosen Atribute: \(chooseAtribute(inputMatrix))")
+//
+//
+//
+//print(atributeSet)
+
+
+
+ID3(inputMatrix, targetAtribute: finalAtribute, atributes: atributeSet)
+
+
+
+
 
 // Menu Loop
 //while true {
