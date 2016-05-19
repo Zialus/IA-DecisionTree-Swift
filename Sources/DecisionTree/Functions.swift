@@ -24,7 +24,7 @@ func getGain(atribute: String) -> (Double) {
     let entropyDictionary = getEntropyNumbers(atribute)
     var coeficients = [Double]()
 
-    let denominator = Double( inputMatrix.count-2 )
+    let denominator = Double( inputMatrix.count-1 )
 
     for (atribute,goalDict) in entropyDictionary {
         var numerator = 0.0
@@ -78,7 +78,7 @@ func getEntropyNumbers(atribute: String) -> ([String:[String:Int]]) {
 
     let col = inputMatrix[0].indexOf(atribute)!
     let lastCol = inputMatrix[0].count-1
-    let lastRow = inputMatrix.count-2
+    let lastRow = inputMatrix.count-1
 
     for (index,_) in inputMatrix.enumerate() where index > 0 && index <= lastRow{
 

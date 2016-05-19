@@ -19,9 +19,7 @@ func processFile () {
         let delimiter = "\n"
         let linesList = fileContent!.componentsSeparatedByString(delimiter)
 
-        for (index,line) in linesList.enumerate() {
-
-
+        for (index,line) in linesList.enumerate() where index < linesList.count-1 {
 
             inputMatrix.append([])
             printfulldebug("\(ANSI.Cyan)~~~~~~~~~~~~~~~~BEGINNING OF LINE~~~~~~~~~~~~~~~~\(ANSI.Reset)")
@@ -45,11 +43,6 @@ func processFile () {
 
             printfulldebug("\(ANSI.Cyan)~~~~~~~~~~~~~~~~END OF LINE~~~~~~~~~~~~~~~~~~~~~~\(ANSI.Reset)")
 
-
-
-
-
-
         }
 
         printdebug("")
@@ -57,7 +50,7 @@ func processFile () {
         printdebug(Colors.Green("|-------EVERYTHING HAS BEEN PROCESSED!! HERE IS THE FINAL RESULT-------|"))
         printdebug(Colors.Green("\\----------------------------------------------------------------------/"))
         printdebug("")
-        printdebug("The Database has \(Colors.Red("\(inputMatrix[0].count-2)")) atributes and \(Colors.Red("\(inputMatrix.count-2)")) examples ")
+        printdebug("The Database has \(Colors.Red("\(inputMatrix[0].count-2)")) atributes and \(Colors.Red("\(inputMatrix.count-1)")) examples ")
         printdebug("")
 
     }
@@ -79,6 +72,7 @@ func processMatrix(matrix: [[String]]) -> () {
 
             if atributeDictionary[atributeName] != nil {
                 atributeDictionary[atributeName]!.insert(atributeValue)
+                atributeSet.insert(atributeName)
             } else{
                 atributeDictionary[atributeName] = Set<String>(arrayLiteral:atributeValue)
             }
@@ -97,5 +91,6 @@ func processMatrix(matrix: [[String]]) -> () {
         }
     }
 
+    atributeSet.remove(finalAtribute)
 
 }
