@@ -1,6 +1,5 @@
 import Foundation
 
-
 func printdebug(string: Any) -> () {
     if DEBUG == true {
         print(string)

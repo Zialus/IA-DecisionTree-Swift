@@ -1,16 +1,15 @@
-
 import Foundation
 
-func chooseAtribute(matrix: [[String]])->(String){
+func chooseAtribute(matrix: [[String]]) -> (String) {
 
     var maxGain = -Double.infinity
     var maxAtribute = ""
 
-    for (atribute,values) in atributeDictionary where atribute != finalAtribute {
+    for (atribute, values) in atributeDictionary where atribute != finalAtribute {
 
         printdebug("\(ANSI.Blue)Atribite Stuff --->\(ANSI.Reset) Atributo: \(atribute) \t Ganho: \(getGain(atribute)) ")
 
-        if getGain(atribute) > maxGain{
+        if getGain(atribute) > maxGain {
             maxAtribute = atribute
             maxGain = getGain(atribute)
         }
@@ -26,9 +25,9 @@ func getGain(atribute: String) -> (Double) {
 
     let denominator = Double( inputMatrix.count-1 )
 
-    for (atribute,goalDict) in entropyDictionary {
+    for (atribute, goalDict) in entropyDictionary {
         var numerator = 0.0
-        for (goal,count) in goalDict {
+        for (goal, count) in goalDict {
             numerator+=Double(count)
         }
         printfulldebug("num:\(numerator) den: \(denominator)")
@@ -37,20 +36,20 @@ func getGain(atribute: String) -> (Double) {
 
     var result = 0.0
 
-    for (c,dictionaryEntry) in Array(zip(coeficients,entropyDictionary)) {
+    for (c, dictionaryEntry) in Array(zip(coeficients, entropyDictionary)) {
         var listOfThingsToSendToEntropyCalc = [Double]()
 
         var denominatorInternal = 0.0
 
         printfulldebug("Stuff in the dictionary \(dictionaryEntry)")
 
-        let (atribute,restOfDictionary) = dictionaryEntry
+        let (atribute, restOfDictionary) = dictionaryEntry
 
-        for (goal,count) in restOfDictionary {
+        for (goal, count) in restOfDictionary {
             denominatorInternal+=Double(count)
         }
 
-        for (goal,count) in restOfDictionary {
+        for (goal, count) in restOfDictionary {
             listOfThingsToSendToEntropyCalc.append( Double(count)/denominatorInternal )
         }
 
@@ -80,7 +79,7 @@ func getEntropyNumbers(atribute: String) -> ([String:[String:Int]]) {
     let lastCol = inputMatrix[0].count-1
     let lastRow = inputMatrix.count-1
 
-    for (index,_) in inputMatrix.enumerate() where index > 0 && index <= lastRow{
+    for (index, _) in inputMatrix.enumerate() where index > 0 && index <= lastRow {
 
         let value = inputMatrix[index][col]
         let goal = inputMatrix[index][lastCol]
@@ -156,8 +155,8 @@ func exampleSubset (allTheExamples: [[String]], atributeName: String, atributeVa
 
     let indexOfWantedAtribute = allTheExamples[0].indexOf(atributeName)!
 
-    for (indexOfExample,example) in allTheExamples.enumerate() where indexOfExample > 0 {
-        if example[indexOfWantedAtribute] == atributeName {
+    for (indexOfExample, example) in allTheExamples.enumerate() where indexOfExample > 0 {
+        if example[indexOfWantedAtribute] == atributeValue {
             examplesSubset.append(example)
         }
     }

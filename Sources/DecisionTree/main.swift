@@ -50,10 +50,9 @@ printdebug("---------------")
 
 
 
-ID3(inputMatrix, targetAtribute: finalAtribute, atributes: atributeSet)
+let decisionTree = ID3(inputMatrix, targetAtribute: finalAtribute, atributes: atributeSet)
 
-
-
+decisionTree.formatedPrint()
 
 
 // Menu Loop

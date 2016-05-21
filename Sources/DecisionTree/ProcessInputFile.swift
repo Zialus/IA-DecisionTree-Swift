@@ -2,7 +2,7 @@ import Foundation
 
 func processFile () {
 
-    print("Trying to open the file: \(filelocation) ... ",terminator:"")
+    print("Trying to open the file: \(filelocation) ... ", terminator:"")
     let fileContent = try? NSString(contentsOfFile: filelocation, encoding: NSUTF8StringEncoding)
 
     if fileContent == nil {
@@ -19,7 +19,7 @@ func processFile () {
         let delimiter = "\n"
         let linesList = fileContent!.componentsSeparatedByString(delimiter)
 
-        for (index,line) in linesList.enumerate() where index < linesList.count-1 {
+        for (index, line) in linesList.enumerate() where index < linesList.count-1 {
 
             inputMatrix.append([])
             printfulldebug("\(ANSI.Cyan)~~~~~~~~~~~~~~~~BEGINNING OF LINE~~~~~~~~~~~~~~~~\(ANSI.Reset)")
@@ -36,7 +36,7 @@ func processFile () {
 
 
 
-            for atribute in atributeList{
+            for atribute in atributeList {
                 inputMatrix[index].append(atribute)
             }
 
@@ -64,16 +64,16 @@ func processMatrix(matrix: [[String]]) -> () {
     let finalCol = inputMatrix[0].count-1
     finalAtribute = inputMatrix[0][finalCol]
 
-    for (index,line) in matrix.enumerate() where index > 0 {
+    for (index, line) in matrix.enumerate() where index > 0 {
 
-        for (col,atributeValue) in line.enumerate() where col > 0{
+        for (col, atributeValue) in line.enumerate() where col > 0 {
 
             let atributeName = matrix[0][col]
 
             if atributeDictionary[atributeName] != nil {
                 atributeDictionary[atributeName]!.insert(atributeValue)
                 atributeSet.insert(atributeName)
-            } else{
+            } else {
                 atributeDictionary[atributeName] = Set<String>(arrayLiteral:atributeValue)
             }
 
@@ -87,7 +87,7 @@ func processMatrix(matrix: [[String]]) -> () {
 //            }
 
 
-            
+
         }
     }
 
