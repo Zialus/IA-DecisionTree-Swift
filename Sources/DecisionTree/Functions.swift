@@ -101,19 +101,31 @@ func calculateEntropy(values: [Double]) -> (Double) {
     return entropy
 }
 
-func ID3(examples:[[String]], targetAtribute: String, atributes:Set<String>) -> (Node) {
+func ID3(examples: [[String]], targetAtribute: String, atributes: Set<String>) -> (Node) {
 
-    if (examples.count == 1){
+    if examples.count == 1 {
 
-        //        If number of predicting attributes is empty, then Return the single node tree Root,
-        //        with label = most common value of the target attribute in the examples.
+        let (label,number) = mostCommonValueOfTargetAtribute(inputMatrix, targetAtribute: targetAtribute)
+
+        let node = Node.Value(leaf: Leaf(goal:label, amount: number))
+
+        print("FIRST IF  ---------------------------------------------------------------FIRST IF START")
+        node.formatedPrint()
+        print("FIRST IF ------------------------------------------------------------------FIRST IF END")
+
+        return node
 
     }
 
-    let (bool,label) = allExamplesSameGoal(examples)
+    let (bool, label, amount) = allExamplesSameGoal(examples)
 
     if bool {
-        let node = Node.Value(leaf: Leaf(goal:label))
+        let node = Node.Value(leaf: Leaf(goal:label,amount: amount))
+
+        print("BOOOL TRUE  ---------------------------------------------------------------BOOOL START")
+        node.formatedPrint()
+        print("BOOOL TRUE ------------------------------------------------------------------BOOOL END")
+
         return node
     } else {
 
@@ -125,27 +137,52 @@ func ID3(examples:[[String]], targetAtribute: String, atributes:Set<String>) -> 
             let subsetOfExamples = exampleSubset(examples, atributeName: bestAtribute, atributeValue: eachPossibleValue)
 
             if subsetOfExamples.count == 1 {
-                //  If Examples(vi) is empty
-                //  Then below this new branch add a leaf node with label = most common target value in the examples
+                let (label,number) = mostCommonValueOfTargetAtribute(inputMatrix, targetAtribute: targetAtribute)
+                let node = Node.Value(leaf: Leaf(goal:label, amount: number))
+
+                print("NO EXAMPLES LEFT---------------------------------------------------------------START")
+                node.formatedPrint()
+                print("NO EXAMPLES LEFT-----------------------------------------------------------------END")
+
+
+                return node
 
             } else {
-                atributeSet.remove(bestAtribute)
-                let childNode = ID3(subsetOfExamples, targetAtribute: targetAtribute, atributes: atributeSet )
+                var newAtributeSet = atributeSet
 
-                switch node {
-                case .Atribute(let value):
-                    value.children.append(childNode)
-                default:
-                    print("This should never happend!!")
-                    exit(1)
-                }
+                newAtributeSet.remove(bestAtribute)
+                let childNode = ID3(subsetOfExamples, targetAtribute: targetAtribute, atributes: newAtributeSet )
+
+                let currentNodeLevel = node.getLevel()
+
+                childNode.setLevel(currentNodeLevel+1)
+                print("created a child---------------------------------------------------------------START")
+                childNode.formatedPrint()
+                print("created a child-----------------------------------------------------------------END")
+
+
+                node.appendChild(childNode)
+
+//                switch node {
+//                case .Atribute(let value):
+//                    value.children.append(childNode)
+//                default:
+//                    print("This should never happend!!")
+//                    exit(1)
+//                }
             }
         }
 
+
+        print("REACHED THE END---------------------------------------------------------------START")
+        node.formatedPrint()
+        print("REACHED THE END-----------------------------------------------------------------END")
+
+
         return node
     }
-    
-    
+
+
 }
 
 
@@ -166,24 +203,55 @@ func exampleSubset (allTheExamples: [[String]], atributeName: String, atributeVa
 }
 
 
-func allExamplesSameGoal(examples:[[String]]) -> (Bool,String) {
+func allExamplesSameGoal(examples: [[String]]) -> (Bool, String, Int) {
 
+    let count = examples.count-1
     let finalCol = examples[0].count-1
     let valueOfGoalFirstLine = examples[1][finalCol]
 
     var everythingIsEqual = true
-    for (indexOfLine,line) in examples.enumerate() where indexOfLine>0 {
+    for (indexOfLine, line) in examples.enumerate() where indexOfLine>0 {
 
         if line[finalCol] != valueOfGoalFirstLine {
             everythingIsEqual = false
         }
-        
+
     }
 
     if everythingIsEqual {
-        return (true,valueOfGoalFirstLine)
+        return (true, valueOfGoalFirstLine,count)
     } else {
-        return (false,"")
+        return (false, "",0)
+    }
+
+}
+
+func mostCommonValueOfTargetAtribute(examples: [[String]], targetAtribute: String) -> (String, Int) {
+
+    var mostCommonValueName = ""
+    var mostCommonValueCounter = 0
+
+    let possibleValuesForFinalAtribute = atributeDictionary[targetAtribute]!
+
+    var counter = [String:Int]()
+
+    for values in possibleValuesForFinalAtribute {
+        counter[values] = 0
+    }
+
+    let lastCol = examples[0].count-1
+    
+    for (index,example) in examples.enumerate() where index > 0 {
+        let finalAtributeValue = example[lastCol]
+        counter[finalAtributeValue]! += 1
     }
     
+    for (atribute,count) in counter {
+        if count > mostCommonValueCounter {
+            mostCommonValueName = atribute
+            mostCommonValueCounter = count
+        }
+    }
+
+    return (mostCommonValueName, mostCommonValueCounter)
 }
