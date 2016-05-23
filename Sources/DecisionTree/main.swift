@@ -7,7 +7,6 @@ var FULLDEBUG = false
 // Will store the location of the input file which cotains the timetables info
 var filelocation: String = ""
 
-
 // Global Stuff
 var atributeDictionary = [String: Set<String>]()
 var finalAtribute: String! = nil
@@ -21,18 +20,15 @@ proccessCmdLineArgs()
 // Process the contents of the input file
 processFile()
 
-//welcomeMessage()
+// welcomeMessage()
 
 printfulldebug(inputMatrix)
 
 processMatrix(inputMatrix)
 
 printdebug("--------------")
-
 printdebug(atributeDictionary)
-
 printdebug("---------------")
-
 
 
 //print(getEntropyNumbers("Pat"))
@@ -40,14 +36,10 @@ printdebug("---------------")
 //
 //print(getEntropyNumbers("Est"))
 //print(getGain("Est"))
-
-
+//
 //print("Chosen Atribute: \(chooseAtribute(inputMatrix))")
 //
-//
-//
 //print(atributeSet)
-
 
 
 let decisionTree = ID3(inputMatrix, targetAtribute: finalAtribute, atributes: atributeSet)

@@ -7,15 +7,14 @@ enum Node {
     func formatedPrint() {
         switch self {
         case .Atribute(let tree):
-            print( "Level: \(tree.level) Atribute = \(tree.atribute)")
+            print( "Level: \(tree.level) Atribute = \(tree.atribute) ParantEdge = \(tree.edgeName) ")
 
             for child in tree.children {
                 child.formatedPrint()
             }
         case .Value(let leaf):
-            print( "Level: \(leaf.level) Value = \(leaf.goal) Amount:\(leaf.amount) ")
+            print( "Level: \(leaf.level) Value = \(leaf.goal) Amount:\(leaf.amount) ParantEdge = \(leaf.edgeName)")
         }
-
     }
 
     func appendChild (node: Node) {
@@ -23,7 +22,8 @@ enum Node {
         case .Atribute(let value):
             value.children.append(node)
         case .Value:
-            return
+            print("This should never happend!!")
+            exit(1)
         }
     }
 
@@ -33,6 +33,15 @@ enum Node {
             tree.level = lvl
         case .Value(let leaf):
             leaf.level = lvl
+        }
+    }
+
+    func setEdgeName (name: String) {
+        switch self {
+        case .Atribute(let tree):
+            tree.edgeName = name
+        case .Value(let leaf):
+            leaf.edgeName = name
         }
     }
 
@@ -47,6 +56,7 @@ enum Node {
 }
 
 class Tree {
+    var edgeName: String
     var level: Int
     let atribute: String
     var children: [Node]
@@ -54,11 +64,13 @@ class Tree {
         self.atribute = atribute
         self.children = [Node]()
         self.level = 0
+        self.edgeName = ""
     }
 }
 
 class Leaf {
-    var level = 0
+    var edgeName: String
+    var level: Int
     let goal: String
     let amount: Int
 
@@ -66,5 +78,6 @@ class Leaf {
         self.goal = goal
         self.amount = amount
         self.level = 0
+        self.edgeName = ""
     }
 }

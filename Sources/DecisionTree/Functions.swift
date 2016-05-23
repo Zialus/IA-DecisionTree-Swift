@@ -1,11 +1,11 @@
 import Foundation
 
-func chooseAtribute(matrix: [[String]]) -> (String) {
+func chooseAtribute(possibleAtributes: Set<String>) -> (String) {
 
     var maxGain = -Double.infinity
     var maxAtribute = ""
 
-    for (atribute, values) in atributeDictionary where atribute != finalAtribute {
+    for atribute in possibleAtributes {
 
         printdebug("\(ANSI.Blue)Atribite Stuff --->\(ANSI.Reset) Atributo: \(atribute) \t Ganho: \(getGain(atribute)) ")
 
@@ -129,7 +129,7 @@ func ID3(examples: [[String]], targetAtribute: String, atributes: Set<String>) -
         return node
     } else {
 
-        let bestAtribute = chooseAtribute(examples)
+        let bestAtribute = chooseAtribute(atributes)
         let node = Node.Atribute(tree: Tree(atribute: bestAtribute))
 
         for eachPossibleValue in atributeDictionary[bestAtribute]! {
@@ -148,13 +148,14 @@ func ID3(examples: [[String]], targetAtribute: String, atributes: Set<String>) -
                 return node
 
             } else {
-                var newAtributeSet = atributeSet
+                var newAtributeSet = atributes
 
                 newAtributeSet.remove(bestAtribute)
                 let childNode = ID3(subsetOfExamples, targetAtribute: targetAtribute, atributes: newAtributeSet )
 
                 let currentNodeLevel = node.getLevel()
 
+                childNode.setEdgeName(eachPossibleValue)
                 childNode.setLevel(currentNodeLevel+1)
                 print("created a child---------------------------------------------------------------START")
                 childNode.formatedPrint()
@@ -162,14 +163,6 @@ func ID3(examples: [[String]], targetAtribute: String, atributes: Set<String>) -
 
 
                 node.appendChild(childNode)
-
-//                switch node {
-//                case .Atribute(let value):
-//                    value.children.append(childNode)
-//                default:
-//                    print("This should never happend!!")
-//                    exit(1)
-//                }
             }
         }
 
