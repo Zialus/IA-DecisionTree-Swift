@@ -7,13 +7,24 @@ enum Node {
     func formatedPrint() {
         switch self {
         case .Atribute(let tree):
-            print( "Level: \(tree.level) Atribute = \(tree.atribute) ParantEdge = \(tree.edgeName) ")
+
+            for _ in 0..<tree.level {
+                print("\t",terminator:"")
+            }
+
+            print( "Level: \(tree.level) Atribute = \(tree.atribute) ParentEdge = \(tree.edgeName) ")
 
             for child in tree.children {
                 child.formatedPrint()
             }
+
         case .Value(let leaf):
-            print( "Level: \(leaf.level) Value = \(leaf.goal) Amount:\(leaf.amount) ParantEdge = \(leaf.edgeName)")
+
+            for _ in 0..<leaf.level {
+                print("\t",terminator:"")
+            }
+
+            print( "Level: \(leaf.level) Value = \(leaf.goal) Amount:\(leaf.amount) ParentEdge = \(leaf.edgeName)")
         }
     }
 
@@ -60,10 +71,10 @@ class Tree {
     var level: Int
     let atribute: String
     var children: [Node]
-    init(atribute: String) {
+    init(atribute: String, level: Int) {
         self.atribute = atribute
         self.children = [Node]()
-        self.level = 0
+        self.level = level
         self.edgeName = ""
     }
 }
@@ -74,7 +85,7 @@ class Leaf {
     let goal: String
     let amount: Int
 
-    init(goal: String, amount: Int) {
+    init(goal: String, amount: Int, level: Int) {
         self.goal = goal
         self.amount = amount
         self.level = 0

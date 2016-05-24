@@ -42,7 +42,7 @@ printdebug("---------------")
 //print(atributeSet)
 
 
-let decisionTree = ID3(inputMatrix, targetAtribute: finalAtribute, atributes: atributeSet)
+let decisionTree = ID3(inputMatrix, targetAtribute: finalAtribute, atributes: atributeSet, level: 0)
 
 decisionTree.formatedPrint()
 

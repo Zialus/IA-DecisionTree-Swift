@@ -101,17 +101,17 @@ func calculateEntropy(values: [Double]) -> (Double) {
     return entropy
 }
 
-func ID3(examples: [[String]], targetAtribute: String, atributes: Set<String>) -> (Node) {
+func ID3(examples: [[String]], targetAtribute: String, atributes: Set<String>, level: Int) -> (Node) {
 
-    if examples.count == 1 {
+    if atributes.count == 0 {
 
-        let (label,number) = mostCommonValueOfTargetAtribute(inputMatrix, targetAtribute: targetAtribute)
+        let (label, number) = mostCommonValueOfTargetAtribute(examples, targetAtribute: targetAtribute)
 
-        let node = Node.Value(leaf: Leaf(goal:label, amount: number))
+        let node = Node.Value(leaf: Leaf(goal:label, amount: number, level: level))
 
-        print("FIRST IF  ---------------------------------------------------------------FIRST IF START")
+        print("----------FIRST IF START-----------")
         node.formatedPrint()
-        print("FIRST IF ------------------------------------------------------------------FIRST IF END")
+        print("----------FIRST IF END-------------")
 
         return node
 
@@ -120,56 +120,79 @@ func ID3(examples: [[String]], targetAtribute: String, atributes: Set<String>) -
     let (bool, label, amount) = allExamplesSameGoal(examples)
 
     if bool {
-        let node = Node.Value(leaf: Leaf(goal:label,amount: amount))
+        let node = Node.Value(leaf: Leaf(goal:label, amount: amount, level: level))
 
-        print("BOOOL TRUE  ---------------------------------------------------------------BOOOL START")
+        print("-------------------------BOOOL TRUE START---------------")
         node.formatedPrint()
-        print("BOOOL TRUE ------------------------------------------------------------------BOOOL END")
+        print("-----------------------------BOOOL TRUE END----------------")
 
         return node
     } else {
 
+
         let bestAtribute = chooseAtribute(atributes)
-        let node = Node.Atribute(tree: Tree(atribute: bestAtribute))
+        let node = Node.Atribute(tree: Tree(atribute: bestAtribute, level: level))
+
+
+        print("ELSE DO BOOL")
+        print(bestAtribute)
+        print()
+
+
 
         for eachPossibleValue in atributeDictionary[bestAtribute]! {
+
+            print("------------------------------Created a Child START-------------------------------------------------------------------------------")
+
 
             let subsetOfExamples = exampleSubset(examples, atributeName: bestAtribute, atributeValue: eachPossibleValue)
 
             if subsetOfExamples.count == 1 {
-                let (label,number) = mostCommonValueOfTargetAtribute(inputMatrix, targetAtribute: targetAtribute)
-                let node = Node.Value(leaf: Leaf(goal:label, amount: number))
 
-                print("NO EXAMPLES LEFT---------------------------------------------------------------START")
-                node.formatedPrint()
-                print("NO EXAMPLES LEFT-----------------------------------------------------------------END")
+                print("----------------NO_EXAMPLES_LEFT CASE START-----------------------------")
 
-
-                return node
-
-            } else {
-                var newAtributeSet = atributes
-
-                newAtributeSet.remove(bestAtribute)
-                let childNode = ID3(subsetOfExamples, targetAtribute: targetAtribute, atributes: newAtributeSet )
+                let (label, number) = mostCommonValueOfTargetAtribute(examples, targetAtribute: targetAtribute)
+                let childNode = Node.Value(leaf: Leaf(goal:label, amount: number, level: level))
 
                 let currentNodeLevel = node.getLevel()
-
                 childNode.setEdgeName(eachPossibleValue)
                 childNode.setLevel(currentNodeLevel+1)
-                print("created a child---------------------------------------------------------------START")
-                childNode.formatedPrint()
-                print("created a child-----------------------------------------------------------------END")
+                node.appendChild(childNode)
 
+
+                print("---------------------------NO_EXAMPLES_LEFT CASE END-------------------------\n")
+                childNode.formatedPrint()
+
+
+            } else {
+
+                print("-----------------------------REGULAR CASE START------------------------------")
+                var newAtributeSet = atributes
+                newAtributeSet.remove(bestAtribute)
+                let childNode = ID3(subsetOfExamples, targetAtribute: targetAtribute, atributes: newAtributeSet, level: level+1 )
+
+                let currentNodeLevel = node.getLevel()
+                childNode.setLevel(currentNodeLevel+1)
+                childNode.setEdgeName(eachPossibleValue)
 
                 node.appendChild(childNode)
+
+
+                print("-----------------------------REGULAR CASE END--------------------------------\n")
+                childNode.formatedPrint()
+
+
             }
+
+            print("------------------------------Created a Child END----------------------------------------------------------------------------------------")
+
+
         }
 
 
-        print("REACHED THE END---------------------------------------------------------------START")
+        print("-------------------------------REACHED THE END START--------------------------------")
         node.formatedPrint()
-        print("REACHED THE END-----------------------------------------------------------------END")
+        print("-------------------------------REACHED THE END END----------------------------------")
 
 
         return node
@@ -212,9 +235,9 @@ func allExamplesSameGoal(examples: [[String]]) -> (Bool, String, Int) {
     }
 
     if everythingIsEqual {
-        return (true, valueOfGoalFirstLine,count)
+        return (true, valueOfGoalFirstLine, count)
     } else {
-        return (false, "",0)
+        return (false, "", 0)
     }
 
 }
@@ -233,13 +256,13 @@ func mostCommonValueOfTargetAtribute(examples: [[String]], targetAtribute: Strin
     }
 
     let lastCol = examples[0].count-1
-    
-    for (index,example) in examples.enumerate() where index > 0 {
+
+    for (index, example) in examples.enumerate() where index > 0 {
         let finalAtributeValue = example[lastCol]
         counter[finalAtributeValue]! += 1
     }
-    
-    for (atribute,count) in counter {
+
+    for (atribute, count) in counter {
         if count > mostCommonValueCounter {
             mostCommonValueName = atribute
             mostCommonValueCounter = count
