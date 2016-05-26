@@ -1,29 +1,29 @@
 import Foundation
 
-func chooseAtribute(possibleAtributes: Set<String>) -> (String) {
+func chooseAtribute(possibleAtributes: Set<String>, examples: [[String]]) -> (String) {
 
     var maxGain = -Double.infinity
     var maxAtribute = ""
 
     for atribute in possibleAtributes {
 
-        printdebug("\(ANSI.Blue)Atribite Stuff --->\(ANSI.Reset) Atributo: \(atribute) \t Ganho: \(getGain(atribute)) ")
+        printdebug("\(ANSI.Blue)Atribite Stuff --->\(ANSI.Reset) Atributo: \(atribute) \t Ganho: \(getGain(atribute, examples: examples)) ")
 
-        if getGain(atribute) > maxGain {
+        if getGain(atribute, examples: examples) > maxGain {
             maxAtribute = atribute
-            maxGain = getGain(atribute)
+            maxGain = getGain(atribute, examples: examples)
         }
     }
 
     return maxAtribute
 }
 
-func getGain(atribute: String) -> (Double) {
+func getGain(atribute: String, examples: [[String]]) -> (Double) {
 
-    let entropyDictionary = getEntropyNumbers(atribute)
+    let entropyDictionary = getEntropyNumbers(atribute, examples: examples)
     var coeficients = [Double]()
 
-    let denominator = Double( inputMatrix.count-1 )
+    let denominator = Double( examples.count-1 )
 
     for (atribute, goalDict) in entropyDictionary {
         var numerator = 0.0
@@ -50,7 +50,10 @@ func getGain(atribute: String) -> (Double) {
         }
 
         for (goal, count) in restOfDictionary {
-            listOfThingsToSendToEntropyCalc.append( Double(count)/denominatorInternal )
+            //TODO: I think this is an hack but i'm not sure
+            if denominatorInternal != 0 {
+                listOfThingsToSendToEntropyCalc.append( Double(count)/denominatorInternal )
+            }
         }
 
         printfulldebug("Sending this to EntropyCalc \(listOfThingsToSendToEntropyCalc) * \(c)")
@@ -60,7 +63,7 @@ func getGain(atribute: String) -> (Double) {
     return 1-result
 }
 
-func getEntropyNumbers(atribute: String) -> ([String:[String:Int]]) {
+func getEntropyNumbers(atribute: String, examples: [[String]]) -> ([String:[String:Int]]) {
 
     var dictionary = [String:[String:Int]]()
 
@@ -75,14 +78,14 @@ func getEntropyNumbers(atribute: String) -> ([String:[String:Int]]) {
         }
     }
 
-    let col = inputMatrix[0].indexOf(atribute)!
-    let lastCol = inputMatrix[0].count-1
-    let lastRow = inputMatrix.count-1
+    let col = examples[0].indexOf(atribute)!
+    let lastCol = examples[0].count-1
+    let lastRow = examples.count-1
 
-    for (index, _) in inputMatrix.enumerate() where index > 0 && index <= lastRow {
+    for (index, _) in examples.enumerate() where index > 0 && index <= lastRow {
 
-        let value = inputMatrix[index][col]
-        let goal = inputMatrix[index][lastCol]
+        let value = examples[index][col]
+        let goal = examples[index][lastCol]
 
         dictionary[value]![goal]!+=1
 
@@ -130,7 +133,7 @@ func ID3(examples: [[String]], targetAtribute: String, atributes: Set<String>, l
     } else {
 
 
-        let bestAtribute = chooseAtribute(atributes)
+        let bestAtribute = chooseAtribute(atributes, examples: examples)
         let node = Node.Atribute(tree: Tree(atribute: bestAtribute, level: level))
 
 
@@ -202,13 +205,16 @@ func ID3(examples: [[String]], targetAtribute: String, atributes: Set<String>, l
 }
 
 
-func exampleSubset (allTheExamples: [[String]], atributeName: String, atributeValue: String) -> ([[String]]) {
+func exampleSubset (examples: [[String]], atributeName: String, atributeValue: String) -> ([[String]]) {
 
-    var examplesSubset: [[String]] = [allTheExamples[0]]
+    var examplesSubset: [[String]] = [examples[0]]
 
-    let indexOfWantedAtribute = allTheExamples[0].indexOf(atributeName)!
+    let indexOfWantedAtribute = examples[0].indexOf(atributeName)!
 
-    for (indexOfExample, example) in allTheExamples.enumerate() where indexOfExample > 0 {
+    printdebug("\n\nTESTE \(indexOfWantedAtribute)")
+
+    for (indexOfExample, example) in examples.enumerate() where indexOfExample > 0 {
+        printdebug("\n\n \(example[indexOfWantedAtribute]) == \(atributeValue)")
         if example[indexOfWantedAtribute] == atributeValue {
             examplesSubset.append(example)
         }
