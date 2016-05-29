@@ -1,6 +1,6 @@
 import Foundation
 
-func processFile () {
+func processFile() {
 
     print("Trying to open the file: \(filelocation) ... ", terminator:"")
     let fileContent = try? NSString(contentsOfFile: filelocation, encoding: NSUTF8StringEncoding)
@@ -93,4 +93,55 @@ func processMatrix(matrix: [[String]]) -> () {
     
     atributeSet.remove(finalAtribute)
     
+}
+
+func processValidationSet(validationSetFile: String) -> ([[[String]]]?){
+
+    var returnMatrix = [[[String]]]()
+    let firstRow = inputMatrix[0]
+
+    print("Trying to open the file: \(validationSetFile) ... ", terminator:"")
+
+    guard let fileContent = try? NSString(contentsOfFile: validationSetFile, encoding: NSUTF8StringEncoding) else {
+        return nil
+    }
+
+    print("\(Colors.Green("File opened successfuly!"))")
+
+    printfulldebug("\n\(ANSI.Cyan)######BEGINNING OF FILE CONTENT######\(ANSI.Reset)")
+    printfulldebug(fileContent)
+    printfulldebug("\(ANSI.Cyan)######END OF FILE CONTENT######\(ANSI.Reset)\n")
+
+    let delimiter = "\n"
+    let linesList = fileContent.componentsSeparatedByString(delimiter)
+
+    // last line is blank
+    for (index, line) in linesList.enumerate() where index < linesList.count-1 {
+
+        var tmpArray = [String]()
+        printfulldebug("\(ANSI.Cyan)~~~~~~~~~~~~~~~~BEGINNING OF LINE~~~~~~~~~~~~~~~~\(ANSI.Reset)")
+
+        printfulldebug("\(ANSI.Yellow)$$$$$$--FULL LINE--$$$$$$$\(ANSI.Reset)")
+        printfulldebug(line)
+        printfulldebug("\(ANSI.Yellow)$$$$$$--END OF IT--$$$$$$$\(ANSI.Reset)")
+
+        let delimiter = ","
+        let atributeList = line.componentsSeparatedByString(delimiter)
+
+        printfulldebug(atributeList)
+
+        for atribute in atributeList {
+            tmpArray.append(atribute)
+        }
+
+        let tmpMatrix: [[String]] = [firstRow,tmpArray]
+        returnMatrix.append(tmpMatrix)
+
+
+        printfulldebug("\(ANSI.Cyan)~~~~~~~~~~~~~~~~END OF LINE~~~~~~~~~~~~~~~~~~~~~~\(ANSI.Reset)")
+
+    }
+
+    return returnMatrix
+
 }

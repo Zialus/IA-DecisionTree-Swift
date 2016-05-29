@@ -24,22 +24,16 @@ processFile()
 
 printfulldebug(inputMatrix)
 
+
 processMatrix(inputMatrix)
 
 printdebug("--------------")
 printdebug(atributeDictionary)
 printdebug("---------------")
 
-
-//print(getEntropyNumbers("Pat"))
-//print(getGain("Pat"))
-//
-//print(getEntropyNumbers("Est"))
-//print(getGain("Est"))
-//
-//print("Chosen Atribute: \(chooseAtribute(inputMatrix))")
-//
-//print(atributeSet)
+printdebug("--------------")
+printdebug(atributeSet)
+printdebug("---------------")
 
 
 let decisionTree = ID3(inputMatrix, targetAtribute: finalAtribute, atributes: atributeSet, level: 0)
@@ -48,17 +42,17 @@ decisionTree.formatedPrint()
 
 
 // Menu Loop
-//while true {
-//
-//    switch menu() {
-//    case 1:
-//        findClass()
-//    case 9:
-//        print("Show me the way way out!!!")
-//        exit(0)
-//    default:
-//        print ("Invalid option!")
-//        usleep(600000)
-//    }
-//
-//}
+while true {
+
+    switch menu() {
+    case 1:
+        findClass()
+    case 9:
+        print("Show me the way way out!!!")
+        exit(0)
+    default:
+        print ("Invalid option!")
+        usleep(600000)
+    }
+
+}

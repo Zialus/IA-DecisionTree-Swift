@@ -64,6 +64,15 @@ enum Node {
             return leaf.level
         }
     }
+
+    func getEdgeName () -> (String) {
+        switch self {
+        case .Atribute(let tree):
+            return tree.edgeName
+        case .Value(let leaf):
+            return leaf.edgeName
+        }
+    }
 }
 
 class Tree {

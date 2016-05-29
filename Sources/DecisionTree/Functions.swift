@@ -307,3 +307,32 @@ func mostCommonValueOfTargetAtribute(examples: [[String]], targetAtribute: Strin
 
     return (mostCommonValueName, mostCommonValueCounter)
 }
+
+
+
+func searchForClass(exampleMatrix: [[String]], currentNode: Node) -> (String) {
+
+    switch currentNode {
+
+    case .Atribute(let tree):
+
+        let indexOfAtribute = exampleMatrix[0].indexOf(tree.atribute)!
+        let currentAtribute = exampleMatrix[1][indexOfAtribute]
+
+        var nextNode: Node!
+        for child in tree.children {
+            if child.getEdgeName() == currentAtribute {
+                nextNode = child
+            }
+        }
+
+        return searchForClass(exampleMatrix, currentNode: nextNode)
+
+    case .Value(let leaf):
+        return leaf.goal
+    }
+    
+    
+    
+    
+}
