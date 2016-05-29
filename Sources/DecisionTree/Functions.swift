@@ -20,6 +20,8 @@ func chooseAtribute(possibleAtributes: Set<String>, examples: [[String]]) -> (St
 
 func getGain(atribute: String, examples: [[String]]) -> (Double) {
 
+    //----------------------------CurrentAtribute Section---------------//
+
     let entropyDictionary = getEntropyNumbers(atribute, examples: examples)
     var coeficients = [Double]()
 
@@ -34,7 +36,7 @@ func getGain(atribute: String, examples: [[String]]) -> (Double) {
         coeficients.append(numerator/denominator)
     }
 
-    var result = 0.0
+    var atributeEntropy = 0.0
 
     for (c, dictionaryEntry) in Array(zip(coeficients, entropyDictionary)) {
         var listOfThingsToSendToEntropyCalc = [Double]()
@@ -43,24 +45,52 @@ func getGain(atribute: String, examples: [[String]]) -> (Double) {
 
         printfulldebug("Stuff in the dictionary \(dictionaryEntry)")
 
-        let (atribute, restOfDictionary) = dictionaryEntry
+        let (value, restOfDictionary) = dictionaryEntry
 
         for (goal, count) in restOfDictionary {
             denominatorInternal+=Double(count)
         }
 
         for (goal, count) in restOfDictionary {
-            //TODO: I think this is an hack but i'm not sure
+            //TODO: This is kinda hacky but i won't be fixing it for now
             if denominatorInternal != 0 {
                 listOfThingsToSendToEntropyCalc.append( Double(count)/denominatorInternal )
+            }
+            else{
+                listOfThingsToSendToEntropyCalc.append(0.0)
             }
         }
 
         printfulldebug("Sending this to EntropyCalc \(listOfThingsToSendToEntropyCalc) * \(c)")
-        result+=calculateEntropy(listOfThingsToSendToEntropyCalc)*c
+        atributeEntropy+=calculateEntropy(listOfThingsToSendToEntropyCalc)*c
     }
 
-    return 1-result
+
+
+    //----------------------FinalAtribute Section--------------------//
+    let goalEntropyDictionary = getEntropyNumbers(finalAtribute, examples: examples)
+
+    var goalCoeficients = [Double]()
+
+    for (_, goalDict) in goalEntropyDictionary {
+        var numerator = 0.0
+        for (_, count) in goalDict {
+            numerator+=Double(count)
+        }
+        printfulldebug("num:\(numerator) den: \(denominator)")
+        goalCoeficients.append(numerator/denominator)
+    }
+
+    var goalAtributeEntropy = 0.0
+
+    printfulldebug("Sending this to EntropyCalc \(goalCoeficients)")
+    goalAtributeEntropy+=calculateEntropy(goalCoeficients)
+
+
+
+    // Subtract entropy of the goal atribute from the current atribute whos gain is being calculated
+    let result = goalAtributeEntropy-atributeEntropy
+    return result
 }
 
 func getEntropyNumbers(atribute: String, examples: [[String]]) -> ([String:[String:Int]]) {
