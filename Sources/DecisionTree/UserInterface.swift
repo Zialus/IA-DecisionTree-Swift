@@ -129,6 +129,9 @@ func menu() -> (Int) {
 
 func findClass() -> () {
 
+    print("Insert the name of the file: ", terminator:"")
+    print("")
+
     guard let validationSetFile = readLine() else {
         print("\(Colors.Red("Something went wrong while trying to read the filename!"))")
         return
@@ -141,7 +144,7 @@ func findClass() -> () {
 
     for example in examplesMatrix {
         let answer = searchForClass(example, currentNode: decisionTree)
-        print(answer)
+        print("Example \"\(example[1][0])\" belongs to class: \(answer) ")
     }
 
 }
