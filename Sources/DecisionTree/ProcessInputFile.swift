@@ -85,14 +85,14 @@ func processMatrix(matrix: [[String]]) -> () {
             //                inputMatrix[0][atributeNameIndex]
             //                dictionary[temp_atribute] = atribute
             //            }
-            
-            
-            
+
+
+
         }
     }
-    
+
     atributeSet.remove(finalAtribute)
-    
+
 }
 
 func processValidationSet(validationSetFile: String) -> ([[[String]]]?){
@@ -143,5 +143,64 @@ func processValidationSet(validationSetFile: String) -> ([[[String]]]?){
     }
 
     return returnMatrix
+
+}
+
+func matrixDescretization(inputMatrix: [[String]]) -> ([[String]]) {
+
+    var matrix = inputMatrix
+
+    let numOfCols = matrix[0].count
+    
+    rowLoop: for colIndex in 1..<numOfCols-1 {
+
+        var arrayOfDoubles = [Double]()
+
+        for (index,line) in matrix.enumerate() where index != 0 {
+            guard let double = Double(line[colIndex]) else {
+                print("Something went wrong while trying to convert a string to double in the Column \(matrix[0][colIndex])!")
+                continue rowLoop
+            }
+            arrayOfDoubles.append(double)
+        }
+
+        printdebug("\nFinished creating an array for the atribute: \(matrix[0][colIndex])")
+        printdebug("------------------------------------------------------")
+        printdebug(arrayOfDoubles)
+        printdebug("------------------------------------------------------")
+
+        var pointsVector = [Vector]()
+
+        for elem in arrayOfDoubles {
+            pointsVector.append(Vector([elem]))
+        }
+
+        let kMeanCalculator = KMeans<String>(labels: ["Group1","Group2","Group3"])
+
+        kMeanCalculator.trainCenters(pointsVector,convergeDistance: 0.001)
+
+        printdebug("\nThe Centroids are:")
+        printdebug("------------------------------------------------------")
+        printdebug(kMeanCalculator.centroids)
+        printdebug("------------------------------------------------------")
+
+        for (index,centro) in kMeanCalculator.centroids.enumerate() {
+            kMeanCalculator.labels[index] = String(format: "%.2f",centro.data[0])
+        }
+
+        let listWithLabelsApplied = kMeanCalculator.fit(pointsVector)
+
+        printdebug("\nList after applying labels:")
+        printdebug("------------------------------------------------------")
+        printdebug(listWithLabelsApplied)
+        printdebug("-------------------------------------------------------")
+
+        for i in 1..<matrix.count {
+            matrix[i][colIndex] = listWithLabelsApplied[i-1]
+        }
+
+    }
+
+    return matrix
 
 }

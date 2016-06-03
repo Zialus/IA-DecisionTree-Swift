@@ -17,28 +17,54 @@ var atributeSet = Set<String>()
 // Process the given cmdLine Args
 proccessCmdLineArgs()
 
-// Process the contents of the input file
+// Process the contents of the input file and isert them into the inputMatrix
 processFile()
 
-// welcomeMessage()
+welcomeMessage()
 
-printfulldebug(inputMatrix)
+printdebug("Printing the Matrix before Any kind of Descritization:")
+printdebug("----------------------------------------------------------")
+for line in inputMatrix {
+    printdebug(line)
+}
+printdebug("----------------------------------------------------------")
 
 
-processMatrix(inputMatrix)
+// Process the matrix again to try to descretize stuff
+let descretizedMatrix = matrixDescretization(inputMatrix)
 
-printdebug("--------------")
-printdebug(atributeDictionary)
-printdebug("---------------")
+printdebug("Printing the Matrix after the Descritization Process:")
+printdebug("----------------------------------------------------------")
+for line in descretizedMatrix {
+    printdebug(line)
+}
+printdebug("----------------------------------------------------------")
 
-printdebug("--------------")
+
+
+// Process the matrix to find some general information about it
+processMatrix(descretizedMatrix)
+
+printdebug("Printing the Dictionary of Atributes:")
+printdebug("----------------------------------------------------------")
+for (key,value) in atributeDictionary{
+    printdebug("\(key) --> \(value)")
+}
+printdebug("----------------------------------------------------------")
+
+printdebug("Printing the Set of Atributes:")
+printdebug("----------------------------------------------------------")
 printdebug(atributeSet)
-printdebug("---------------")
+printdebug("----------------------------------------------------------")
 
 
-let decisionTree = ID3(inputMatrix, targetAtribute: finalAtribute, atributes: atributeSet, level: 0)
+let decisionTree = ID3(descretizedMatrix, targetAtribute: finalAtribute, atributes: atributeSet, level: 0)
 
+
+print("\n\nHere is the Decision Tree:")
+printdebug("----------------------------------------------------------")
 decisionTree.formatedPrint()
+printdebug("----------------------------------------------------------")
 
 
 // Menu Loop

@@ -5,6 +5,8 @@ func chooseAtribute(possibleAtributes: Set<String>, examples: [[String]]) -> (St
     var maxGain = -Double.infinity
     var maxAtribute = ""
 
+    printdebug("-------------Atribute Choosing For Loop----------------------")
+
     for atribute in possibleAtributes {
 
         printdebug("\(ANSI.Blue)Atribite Stuff --->\(ANSI.Reset) Atributo: \(atribute) \t Ganho: \(getGain(atribute, examples: examples)) ")
@@ -14,6 +16,8 @@ func chooseAtribute(possibleAtributes: Set<String>, examples: [[String]]) -> (St
             maxGain = getGain(atribute, examples: examples)
         }
     }
+    printdebug("-------------------------------------------------------------\n\n")
+
 
     return maxAtribute
 }
@@ -142,9 +146,9 @@ func ID3(examples: [[String]], targetAtribute: String, atributes: Set<String>, l
 
         let node = Node.Value(leaf: Leaf(goal:label, amount: number, level: level))
 
-        print("----------FIRST IF START-----------")
-        node.formatedPrint()
-        print("----------FIRST IF END-------------")
+        printfulldebug("----------FIRST IF START-----------")
+         if FULLDEBUG { node.formatedPrint() }
+        printfulldebug("------------------------------------\n\n")
 
         return node
 
@@ -155,9 +159,9 @@ func ID3(examples: [[String]], targetAtribute: String, atributes: Set<String>, l
     if bool {
         let node = Node.Value(leaf: Leaf(goal:label, amount: amount, level: level))
 
-        print("-------------------------BOOOL TRUE START---------------")
-        node.formatedPrint()
-        print("-----------------------------BOOOL TRUE END----------------")
+        printfulldebug("-------------------------BOOOL TRUE---------------------")
+        if FULLDEBUG { node.formatedPrint() }
+        printfulldebug("--------------------------------------------------------\n\n")
 
         return node
     } else {
@@ -167,22 +171,22 @@ func ID3(examples: [[String]], targetAtribute: String, atributes: Set<String>, l
         let node = Node.Atribute(tree: Tree(atribute: bestAtribute, level: level))
 
 
-        print("ELSE DO BOOL")
-        print(bestAtribute)
-        print()
+        printfulldebug("---------------------BOOL FALSE-----------------------")
+        printfulldebug("bestAtribute: \(bestAtribute)")
+        printfulldebug("-----------------------------------------------------\n\n")
 
 
 
         for eachPossibleValue in atributeDictionary[bestAtribute]! {
 
-            print("------------------------------Created a Child START-------------------------------------------------------------------------------")
+            printfulldebug("------------------------------Created a Child START-------------------------------------------------------------------------------")
 
 
             let subsetOfExamples = exampleSubset(examples, atributeName: bestAtribute, atributeValue: eachPossibleValue)
 
             if subsetOfExamples.count == 1 {
 
-                print("----------------NO_EXAMPLES_LEFT CASE START-----------------------------")
+                printfulldebug("----------------NO_EXAMPLES_LEFT CASE START-----------------------------")
 
                 let (label, number) = mostCommonValueOfTargetAtribute(examples, targetAtribute: targetAtribute)
                 let childNode = Node.Value(leaf: Leaf(goal:label, amount: number, level: level))
@@ -193,13 +197,12 @@ func ID3(examples: [[String]], targetAtribute: String, atributes: Set<String>, l
                 node.appendChild(childNode)
 
 
-                print("---------------------------NO_EXAMPLES_LEFT CASE END-------------------------\n")
-                childNode.formatedPrint()
-
+                printfulldebug("---------------------------NO_EXAMPLES_LEFT CASE END-------------------------\n")
+                if FULLDEBUG { childNode.formatedPrint() }
 
             } else {
 
-                print("-----------------------------REGULAR CASE START------------------------------")
+                printfulldebug("-----------------------------REGULAR CASE START------------------------------")
                 var newAtributeSet = atributes
                 newAtributeSet.remove(bestAtribute)
                 let childNode = ID3(subsetOfExamples, targetAtribute: targetAtribute, atributes: newAtributeSet, level: level+1 )
@@ -211,21 +214,20 @@ func ID3(examples: [[String]], targetAtribute: String, atributes: Set<String>, l
                 node.appendChild(childNode)
 
 
-                print("-----------------------------REGULAR CASE END--------------------------------\n")
-                childNode.formatedPrint()
-
+                printfulldebug("-----------------------------REGULAR CASE END--------------------------------\n")
+                if FULLDEBUG { childNode.formatedPrint() }
 
             }
 
-            print("------------------------------Created a Child END----------------------------------------------------------------------------------------")
+            printfulldebug("------------------------------Created a Child END----------------------------------------------------------------------------------------")
 
 
         }
 
 
-        print("-------------------------------REACHED THE END START--------------------------------")
-        node.formatedPrint()
-        print("-------------------------------REACHED THE END END----------------------------------")
+        printfulldebug("-------------------------------REACHED THE END--------------------------------------")
+        if FULLDEBUG { node.formatedPrint() }
+        printfulldebug("------------------------------------------------------------------------------------\n\n")
 
 
         return node
@@ -241,10 +243,7 @@ func exampleSubset (examples: [[String]], atributeName: String, atributeValue: S
 
     let indexOfWantedAtribute = examples[0].indexOf(atributeName)!
 
-    printdebug("\n\nTESTE \(indexOfWantedAtribute)")
-
     for (indexOfExample, example) in examples.enumerate() where indexOfExample > 0 {
-        printdebug("\n\n \(example[indexOfWantedAtribute]) == \(atributeValue)")
         if example[indexOfWantedAtribute] == atributeValue {
             examplesSubset.append(example)
         }
@@ -253,7 +252,6 @@ func exampleSubset (examples: [[String]], atributeName: String, atributeValue: S
     return examplesSubset
 
 }
-
 
 func allExamplesSameGoal(examples: [[String]]) -> (Bool, String, Int) {
 
@@ -307,8 +305,6 @@ func mostCommonValueOfTargetAtribute(examples: [[String]], targetAtribute: Strin
 
     return (mostCommonValueName, mostCommonValueCounter)
 }
-
-
 
 func searchForClass(exampleMatrix: [[String]], currentNode: Node) -> (String) {
 
