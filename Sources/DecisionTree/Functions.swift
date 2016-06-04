@@ -31,9 +31,11 @@ func getGain(atribute: String, examples: [[String]]) -> (Double) {
 
     let denominator = Double( examples.count-1 )
 
-    for (atribute, goalDict) in entropyDictionary {
+    // (atribute, goalDict)
+    for (_, goalDict) in entropyDictionary {
         var numerator = 0.0
-        for (goal, count) in goalDict {
+        // (goal, count)
+        for (_, count) in goalDict {
             numerator+=Double(count)
         }
         printfulldebug("num:\(numerator) den: \(denominator)")
@@ -49,13 +51,16 @@ func getGain(atribute: String, examples: [[String]]) -> (Double) {
 
         printfulldebug("Stuff in the dictionary \(dictionaryEntry)")
 
-        let (value, restOfDictionary) = dictionaryEntry
+        // (value, restOfDictionary)
+        let (_, restOfDictionary) = dictionaryEntry
 
-        for (goal, count) in restOfDictionary {
+        // (goal, count)
+        for (_, count) in restOfDictionary {
             denominatorInternal+=Double(count)
         }
 
-        for (goal, count) in restOfDictionary {
+        // (goal, count)
+        for (_, count) in restOfDictionary {
             //TODO: This is kinda hacky but i won't be fixing it for now
             if denominatorInternal != 0 {
                 listOfThingsToSendToEntropyCalc.append( Double(count)/denominatorInternal )
