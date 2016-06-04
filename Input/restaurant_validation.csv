@@ -1,2 +1,12 @@
 Z1,Yes,No,No,Yes,Some,$$$,No,Yes,French,0-10,?
 Z2,Yes,No,No,Yes,Full,$,No,No,Thai,30-60,?
+Z3,No,Yes,No,No,Some,$,No,No,Burger,0-10,?
+Z4,Yes,No,Yes,Yes,Full,$,Yes,No,Thai,30-Oct,?
+Z5,Yes,No,Yes,No,Full,$$$,No,Yes,French,>60,?
+Z6,No,Yes,No,Yes,Some,$$,Yes,Yes,Italian,0-10,?
+Z7,No,Yes,No,No,None,$,Yes,No,Burger,0-10,?
+Z8,No,No,No,Yes,Some,$$,Yes,Yes,Thai,0-10,?
+Z9,No,Yes,Yes,No,Full,$,Yes,No,Burger,>60,?
+Z10,Yes,Yes,Yes,Yes,Full,$$$,No,Yes,Italian,30-Oct,?
+Z11,No,No,No,No,None,$,No,No,Thai,0-10,?
+Z12,Yes,Yes,Yes,Yes,Full,$,No,No,Burger,30-60,?
