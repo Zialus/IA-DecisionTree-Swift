@@ -12,7 +12,14 @@ enum Node {
                 print("\t",terminator:"")
             }
 
-            print( "Level: \(tree.level) Atribute = \(tree.atribute) ParentEdge = \(tree.edgeName) ")
+            if tree.level == 0{
+            print("<\(tree.atribute)>:")
+            }
+
+            else {
+            print("\(tree.edgeName): <\(tree.atribute)>:")
+            }
+
 
             for child in tree.children {
                 child.formatedPrint()
@@ -24,7 +31,7 @@ enum Node {
                 print("\t",terminator:"")
             }
 
-            print( "Level: \(leaf.level) Value = \(leaf.goal) Amount:\(leaf.amount) ParentEdge = \(leaf.edgeName)")
+            print( "\(leaf.edgeName): \(leaf.goal) (\(leaf.amount))")
         }
     }
 
