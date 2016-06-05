@@ -124,19 +124,24 @@ func menu() -> (Int) {
 func findClass() -> () {
 
     print("Insert the name of the file: ", terminator:"")
-    print("")
 
     guard let validationSetFile = readLine() else {
         print("\(Colors.Red("Something went wrong while trying to read the filename!"))")
         return
     }
 
-    guard let examplesMatrix = processValidationSet(validationSetFile) else {
+    print()
+
+    guard let validationExamplesMatrix = processValidationSet(validationSetFile) else {
         print("\(Colors.Red("Something went wrong while trying to open that file!"))")
         return
     }
 
-    for example in examplesMatrix {
+    let finalValidationExamples = descretizeValidationSet(validationExamplesMatrix)
+
+    print()
+
+    for example in finalValidationExamples {
         let answer = searchForClass(example, currentNode: decisionTree)
         print("Example \"\(example[1][0])\" belongs to class: \(answer) ")
     }

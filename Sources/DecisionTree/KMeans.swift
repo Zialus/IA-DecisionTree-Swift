@@ -86,8 +86,8 @@ func reservoirSample<T>(samples: [T], k: Int) -> [T] {
     
     // Randomly replace elements from remaining pool
     for i in k..<samples.count {
-        let j = Int(random() % (i + 2))
-//        let j = Int(arc4random_uniform(UInt32(i + 1)))
+//        let j = Int(random() % (i + 2))
+        let j = Int(arc4random_uniform(UInt32(i + 1)))
         if j < k {
             result[j] = samples[i]
         }

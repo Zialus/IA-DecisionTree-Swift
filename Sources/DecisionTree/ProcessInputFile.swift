@@ -204,3 +204,51 @@ func matrixDescretization(inputMatrix: [[String]]) -> ([[String]]) {
     return matrix
 
 }
+
+func descretizeValidationSet(inputMatrix: [[[String]]]) -> ([[[String]]]){
+
+    var finalMatrix = inputMatrix
+
+    for (matrixNumber,matrix) in inputMatrix.enumerate() {
+
+        let numOfCols = matrix[0].count
+
+        colLoop: for colIndex in 1..<numOfCols-1 {
+
+                guard let double = Double(matrix[1][colIndex]) else {
+                    print("Something went wrong while trying to convert a string to double in the Column \(matrix[0][colIndex])!")
+                    continue colLoop
+                }
+
+                let descretizedDouble = findNearestLabel(double, colName: matrix[0][colIndex])
+
+                finalMatrix[matrixNumber][1][colIndex] = descretizedDouble
+        }
+
+
+
+
+
+    }
+
+    return finalMatrix
+
+}
+
+func findNearestLabel(doubleValue : Double, colName: String) -> (String) {
+
+    var nearestLabel = ""
+    var minDif = Double.infinity
+    let values = atributeDictionary[colName]!
+
+    for value in values {
+        let dif = abs(Double(value)! - doubleValue)
+        if dif < minDif{
+            nearestLabel = value
+            minDif = dif
+        }
+    }
+
+    return String(nearestLabel)
+
+}
