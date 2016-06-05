@@ -185,7 +185,7 @@ func matrixDescretization(inputMatrix: [[String]]) -> ([[String]]) {
         printdebug("------------------------------------------------------")
 
         for (index,centro) in kMeanCalculator.centroids.enumerate() {
-            kMeanCalculator.labels[index] = String(format: "%.2f",centro.data[0])
+            kMeanCalculator.labels[index] = String(centro.data[0].roundToPlaces(2))
         }
 
         let listWithLabelsApplied = kMeanCalculator.fit(pointsVector)
