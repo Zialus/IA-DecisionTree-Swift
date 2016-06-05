@@ -1,5 +1,9 @@
 import Foundation
 
+#if os(Linux)
+    import BSD
+#endif
+
 // Store debug information that will be given by cmdLine Args
 var DEBUG = false
 var FULLDEBUG = false
