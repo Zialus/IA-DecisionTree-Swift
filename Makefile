@@ -6,7 +6,7 @@ clean:
 	if [ -f ./DecisionTree ]; then rm ./DecisionTree; fi
 	if [ -d ./.build/ ]; then rm -rf ./.build/; fi
 
-test: testRestaurant
+test: testWeather
 
 testIris:
 	./DecisionTree Input/iris.csv fulldebug < Input/input_commands_iris.txt
