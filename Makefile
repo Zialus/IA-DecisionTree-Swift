@@ -1,5 +1,5 @@
 all:
-	swift build -Xcc -O -Xcc
+	swift build -Xcc -O
 	mv ./.build/debug/DecisionTree .
 
 clean:
