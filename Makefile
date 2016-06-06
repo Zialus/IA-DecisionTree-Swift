@@ -1,5 +1,5 @@
 all:
-	swift build -Xcc -O -Xcc -fmodule-map-file=libbsd.modulemap
+	swift build -Xcc -O -Xcc
 	mv ./.build/debug/DecisionTree .
 
 clean:

@@ -78,16 +78,19 @@ class KMeans<Label: Hashable> {
 // Pick k random elements from samples
 func reservoirSample<T>(samples: [T], k: Int) -> [T] {
     var result = [T]()
-    
+
     // Fill the result array with first k elements
     for i in 0..<k {
         result.append(samples[i])
     }
-    
+
     // Randomly replace elements from remaining pool
     for i in k..<samples.count {
-//        let j = Int(random() % (i + 2))
-        let j = Int(arc4random_uniform(UInt32(i + 1)))
+
+
+        srandom(UInt32(time(nil)))
+        let j = Int(random() % (i + 1))
+        // let j = Int(arc4random_uniform(UInt32(i + 1)))
         if j < k {
             result[j] = samples[i]
         }
