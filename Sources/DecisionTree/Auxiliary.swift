@@ -13,8 +13,8 @@ func printfulldebug(string: Any) -> () {
 }
 
 extension Double {
-    /// Rounds the double to decimal places value
-    func roundToPlaces(places:Int) -> Double {
+    // Rounds the double to decimal places value
+    func roundToPlaces(places: Int) -> Double {
         let divisor = pow(10.0, Double(places))
         return round(self * divisor) / divisor
     }

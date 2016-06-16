@@ -47,7 +47,7 @@ processMatrix(descretizedMatrix)
 
 printdebug("Printing the Dictionary of Atributes:")
 printdebug("----------------------------------------------------------")
-for (key,value) in atributeDictionary{
+for (key, value) in atributeDictionary {
     printdebug("\(key) --> \(value)")
 }
 printdebug("----------------------------------------------------------")

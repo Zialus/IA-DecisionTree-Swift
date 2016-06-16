@@ -9,14 +9,12 @@ enum Node {
         case .Atribute(let tree):
 
             for _ in 0..<tree.level {
-                print("\t",terminator:"")
+                print("\t", terminator:"")
             }
 
-            if tree.level == 0{
+            if tree.level == 0 {
             print("<\(tree.atribute)>:")
-            }
-
-            else {
+            } else {
             print("\(tree.edgeName): <\(tree.atribute)>:")
             }
 
@@ -28,7 +26,7 @@ enum Node {
         case .Value(let leaf):
 
             for _ in 0..<leaf.level {
-                print("\t",terminator:"")
+                print("\t", terminator:"")
             }
 
             print( "\(leaf.edgeName): \(leaf.goal) (\(leaf.amount))")
