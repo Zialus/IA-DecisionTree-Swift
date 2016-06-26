@@ -9,11 +9,11 @@ func chooseAtribute(possibleAtributes: Set<String>, examples: [[String]]) -> (St
 
     for atribute in possibleAtributes {
 
-        printdebug("\(ANSI.Blue)Atribite Stuff --->\(ANSI.Reset) Atributo: \(atribute) \t Ganho: \(getGain(atribute, examples: examples)) ")
+        printdebug("\(ANSI.Blue)Atribite Stuff --->\(ANSI.Reset) Atributo: \(atribute) \t Ganho: \(getGain(atribute: atribute, examples: examples)) ")
 
-        if getGain(atribute, examples: examples) > maxGain {
+        if getGain(atribute: atribute, examples: examples) > maxGain {
             maxAtribute = atribute
-            maxGain = getGain(atribute, examples: examples)
+            maxGain = getGain(atribute: atribute, examples: examples)
         }
     }
     printdebug("-------------------------------------------------------------\n\n")
@@ -26,7 +26,7 @@ func getGain(atribute: String, examples: [[String]]) -> (Double) {
 
     //----------------------------CurrentAtribute Section---------------//
 
-    let entropyDictionary = getEntropyNumbers(atribute, examples: examples)
+    let entropyDictionary = getEntropyNumbers(atribute: atribute, examples: examples)
     var coeficients = [Double]()
 
     let denominator = Double( examples.count-1 )
@@ -71,13 +71,13 @@ func getGain(atribute: String, examples: [[String]]) -> (Double) {
         }
 
         printfulldebug("Sending this to EntropyCalc \(listOfThingsToSendToEntropyCalc) * \(c)")
-        atributeEntropy+=calculateEntropy(listOfThingsToSendToEntropyCalc)*c
+        atributeEntropy += calculateEntropy(values: listOfThingsToSendToEntropyCalc) * c
     }
 
 
 
     //----------------------FinalAtribute Section--------------------//
-    let goalEntropyDictionary = getEntropyNumbers(finalAtribute, examples: examples)
+    let goalEntropyDictionary = getEntropyNumbers(atribute: finalAtribute, examples: examples)
 
     var goalCoeficients = [Double]()
 
@@ -93,7 +93,7 @@ func getGain(atribute: String, examples: [[String]]) -> (Double) {
     var goalAtributeEntropy = 0.0
 
     printfulldebug("Sending this to EntropyCalc \(goalCoeficients)")
-    goalAtributeEntropy+=calculateEntropy(goalCoeficients)
+    goalAtributeEntropy+=calculateEntropy(values: goalCoeficients)
 
 
 
@@ -117,11 +117,11 @@ func getEntropyNumbers(atribute: String, examples: [[String]]) -> ([String:[Stri
         }
     }
 
-    let col = examples[0].indexOf(atribute)!
+    let col = examples[0].index(of: atribute)!
     let lastCol = examples[0].count-1
     let lastRow = examples.count-1
 
-    for (index, _) in examples.enumerate() where index > 0 && index <= lastRow {
+    for (index, _) in examples.enumerated() where index > 0 && index <= lastRow {
 
         let value = examples[index][col]
         let goal = examples[index][lastCol]
@@ -147,7 +147,7 @@ func ID3(examples: [[String]], targetAtribute: String, atributes: Set<String>, l
 
     if atributes.count == 0 {
 
-        let (label, number) = mostCommonValueOfTargetAtribute(examples, targetAtribute: targetAtribute)
+        let (label, number) = mostCommonValueOfTargetAtribute(examples: examples, targetAtribute: targetAtribute)
 
         let node = Node.Value(leaf: Leaf(goal:label, amount: number, level: level))
 
@@ -159,7 +159,7 @@ func ID3(examples: [[String]], targetAtribute: String, atributes: Set<String>, l
 
     }
 
-    let (bool, label, amount) = allExamplesSameGoal(examples)
+    let (bool, label, amount) = allExamplesSameGoal(examples: examples)
 
     if bool {
         let node = Node.Value(leaf: Leaf(goal:label, amount: amount, level: level))
@@ -172,7 +172,7 @@ func ID3(examples: [[String]], targetAtribute: String, atributes: Set<String>, l
     } else {
 
 
-        let bestAtribute = chooseAtribute(atributes, examples: examples)
+        let bestAtribute = chooseAtribute(possibleAtributes: atributes, examples: examples)
         let node = Node.Atribute(tree: Tree(atribute: bestAtribute, level: level))
 
 
@@ -187,13 +187,13 @@ func ID3(examples: [[String]], targetAtribute: String, atributes: Set<String>, l
             printfulldebug("------------------------------Created a Child START-------------------------------------------------------------------------------")
 
 
-            let subsetOfExamples = exampleSubset(examples, atributeName: bestAtribute, atributeValue: eachPossibleValue)
+            let subsetOfExamples = exampleSubset(examples: examples, atributeName: bestAtribute, atributeValue: eachPossibleValue)
 
             if subsetOfExamples.count == 1 {
 
                 printfulldebug("----------------NO_EXAMPLES_LEFT CASE START-----------------------------")
 
-                let (label, number) = mostCommonValueOfTargetAtribute(examples, targetAtribute: targetAtribute)
+                let (label, number) = mostCommonValueOfTargetAtribute(examples: examples, targetAtribute: targetAtribute)
                 let childNode = Node.Value(leaf: Leaf(goal:label, amount: number, level: level))
 
                 let currentNodeLevel = node.getLevel()
@@ -210,7 +210,7 @@ func ID3(examples: [[String]], targetAtribute: String, atributes: Set<String>, l
                 printfulldebug("-----------------------------REGULAR CASE START------------------------------")
                 var newAtributeSet = atributes
                 newAtributeSet.remove(bestAtribute)
-                let childNode = ID3(subsetOfExamples, targetAtribute: targetAtribute, atributes: newAtributeSet, level: level+1 )
+                let childNode = ID3(examples: subsetOfExamples, targetAtribute: targetAtribute, atributes: newAtributeSet, level: level+1 )
 
                 let currentNodeLevel = node.getLevel()
                 childNode.setLevel(currentNodeLevel+1)
@@ -241,14 +241,13 @@ func ID3(examples: [[String]], targetAtribute: String, atributes: Set<String>, l
 
 }
 
-
-func exampleSubset (examples: [[String]], atributeName: String, atributeValue: String) -> ([[String]]) {
+func exampleSubset(examples: [[String]], atributeName: String, atributeValue: String) -> ([[String]]) {
 
     var examplesSubset: [[String]] = [examples[0]]
 
-    let indexOfWantedAtribute = examples[0].indexOf(atributeName)!
+    let indexOfWantedAtribute = examples[0].index(of: atributeName)!
 
-    for (indexOfExample, example) in examples.enumerate() where indexOfExample > 0 {
+    for (indexOfExample, example) in examples.enumerated() where indexOfExample > 0 {
         if example[indexOfWantedAtribute] == atributeValue {
             examplesSubset.append(example)
         }
@@ -265,7 +264,7 @@ func allExamplesSameGoal(examples: [[String]]) -> (Bool, String, Int) {
     let valueOfGoalFirstLine = examples[1][finalCol]
 
     var everythingIsEqual = true
-    for (indexOfLine, line) in examples.enumerate() where indexOfLine>0 {
+    for (indexOfLine, line) in examples.enumerated() where indexOfLine>0 {
 
         if line[finalCol] != valueOfGoalFirstLine {
             everythingIsEqual = false
@@ -296,7 +295,7 @@ func mostCommonValueOfTargetAtribute(examples: [[String]], targetAtribute: Strin
 
     let lastCol = examples[0].count-1
 
-    for (index, example) in examples.enumerate() where index > 0 {
+    for (index, example) in examples.enumerated() where index > 0 {
         let finalAtributeValue = example[lastCol]
         counter[finalAtributeValue]! += 1
     }
@@ -316,7 +315,7 @@ func searchForClass(exampleMatrix: [[String]], currentNode: Node) -> (String) {
     switch currentNode {
     case .Atribute(let tree):
 
-        let indexOfAtribute = exampleMatrix[0].indexOf(tree.atribute)!
+        let indexOfAtribute = exampleMatrix[0].index(of: tree.atribute)!
         let valueOfcurrentAtribute = exampleMatrix[1][indexOfAtribute]
 
         var nextNode: Node?
@@ -330,7 +329,7 @@ func searchForClass(exampleMatrix: [[String]], currentNode: Node) -> (String) {
             return "!!WARNING --> The Value \(valueOfcurrentAtribute) is not present in the Tree <-- WARNING!!"
         }
 
-        return searchForClass(exampleMatrix, currentNode: nextNodeIsNotNil)
+        return searchForClass(exampleMatrix: exampleMatrix, currentNode: nextNodeIsNotNil)
 
     case .Value(let leaf):
         return leaf.goal

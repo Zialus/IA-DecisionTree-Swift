@@ -111,7 +111,7 @@ func menu() -> (Int) {
     print("Choose your option: ", terminator:"")
 
 
-    if let userInput = readLine(stripNewline: true) {
+    if let userInput = readLine(strippingNewline: true) {
         if let res = Int(userInput) {
             return res
         }
@@ -142,7 +142,7 @@ func findClass() -> () {
     print()
 
     for example in finalValidationExamples {
-        let answer = searchForClass(example, currentNode: decisionTree)
+        let answer = searchForClass(exampleMatrix: example, currentNode: decisionTree)
         print("Example \"\(example[1][0])\" belongs to class: \(answer) ")
     }
 

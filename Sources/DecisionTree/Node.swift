@@ -33,7 +33,7 @@ enum Node {
         }
     }
 
-    func appendChild (node: Node) {
+    func appendChild (_ node: Node) {
         switch self {
         case .Atribute(let value):
             value.children.append(node)
@@ -43,7 +43,7 @@ enum Node {
         }
     }
 
-    func setLevel (lvl: Int) {
+    func setLevel (_ lvl: Int) {
         switch self {
         case .Atribute(let tree):
             tree.level = lvl
@@ -52,7 +52,7 @@ enum Node {
         }
     }
 
-    func setEdgeName (name: String) {
+    func setEdgeName (_ name: String) {
         switch self {
         case .Atribute(let tree):
             tree.edgeName = name

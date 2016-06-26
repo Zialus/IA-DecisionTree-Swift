@@ -58,7 +58,7 @@ printdebug(atributeSet)
 printdebug("----------------------------------------------------------")
 
 
-let decisionTree = ID3(descretizedMatrix, targetAtribute: finalAtribute, atributes: atributeSet, level: 0)
+let decisionTree = ID3(examples: descretizedMatrix, targetAtribute: finalAtribute, atributes: atributeSet, level: 0)
 
 
 print("\n\nHere is the Decision Tree:")

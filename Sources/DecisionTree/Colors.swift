@@ -44,11 +44,11 @@ struct ANSIModifiers {
     static var strikethrough = [9, 29]
 }
 
-func apply<T>(style: [T]) -> (String -> String) {
+func apply<T>(_ style: [T]) -> ((String) -> String) {
     return { str in return "\u{001B}[\(style[0])m\(str)\u{001B}[\(style[1])m" }
 }
 
-func getColor(color: [Int], mod: Int) -> [Int] {
+func getColor(_ color: [Int], mod: Int) -> [Int] {
     let terminator = mod == 30 || mod == 90 ? 30 : 40
     return [ color[0] + mod, color[1] + terminator ]
 }
@@ -60,19 +60,19 @@ public class Colors {
     static let brightBg = 100
 
     // MARK: 8-bit color functions
-    public static func getTextColorer(color: Int) -> (String -> String) {
+    public static func getTextColorer(_ color: Int) -> ((String) -> String) {
         return apply(["38;5;\(color)", String(normalText + 9)])
     }
 
-    public static func colorText(text: String, color: Int) -> String {
+    public static func colorText(_ text: String, color: Int) -> String {
         return Colors.getTextColorer(color)(text)
     }
 
-    public static func getBgColorer(color: Int) -> (String -> String) {
+    public static func getBgColorer(_ color: Int) -> ((String) -> String) {
         return apply(["48;5;\(color)", String(bg + 9)])
     }
 
-    public static func colorBg(text: String, color: Int) -> String {
+    public static func colorBg(_ text: String, color: Int) -> String {
         return Colors.getBgColorer(color)(text)
     }
 

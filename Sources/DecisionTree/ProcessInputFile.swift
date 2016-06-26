@@ -3,7 +3,7 @@ import Foundation
 func processFile() {
 
     print("Trying to open the file: \(filelocation) ... ", terminator:"")
-    let fileContent = try? NSString(contentsOfFile: filelocation, encoding: NSUTF8StringEncoding)
+    let fileContent = try? NSString(contentsOfFile: filelocation, encoding: String.Encoding.utf8.rawValue)
 
     if fileContent == nil {
         print("\(Colors.Red("Something went wrong while trying to open that file!"))")
@@ -17,10 +17,10 @@ func processFile() {
         printfulldebug("\(ANSI.Cyan)######END OF FILE CONTENT######\(ANSI.Reset)\n")
 
         let delimiter = "\n"
-        let linesList = fileContent!.componentsSeparatedByString(delimiter)
+        let linesList = fileContent!.components(separatedBy: delimiter)
 
         // last line is blank
-        for (index, line) in linesList.enumerate() where index < linesList.count-1 {
+        for (index, line) in linesList.enumerated() where index < linesList.count-1 {
 
             inputMatrix.append([])
             printfulldebug("\(ANSI.Cyan)~~~~~~~~~~~~~~~~BEGINNING OF LINE~~~~~~~~~~~~~~~~\(ANSI.Reset)")
@@ -30,7 +30,7 @@ func processFile() {
             printfulldebug("\(ANSI.Yellow)$$$$$$--END OF IT--$$$$$$$\(ANSI.Reset)")
 
             let delimiter = ","
-            let atributeList = line.componentsSeparatedByString(delimiter)
+            let atributeList = line.components(separatedBy: delimiter)
 
             printfulldebug(atributeList)
 
@@ -58,15 +58,15 @@ func processFile() {
 
 }
 
-func processMatrix(matrix: [[String]]) -> () {
+func processMatrix(_ matrix: [[String]]) -> () {
 
     // Saving FinalAribute Name
     let finalCol = inputMatrix[0].count-1
     finalAtribute = inputMatrix[0][finalCol]
 
-    for (index, line) in matrix.enumerate() where index > 0 {
+    for (index, line) in matrix.enumerated() where index > 0 {
 
-        for (col, atributeValue) in line.enumerate() where col > 0 {
+        for (col, atributeValue) in line.enumerated() where col > 0 {
 
             let atributeName = matrix[0][col]
 
@@ -95,14 +95,14 @@ func processMatrix(matrix: [[String]]) -> () {
 
 }
 
-func processValidationSet(validationSetFile: String) -> ([[[String]]]?){
+func processValidationSet(_ validationSetFile: String) -> ([[[String]]]?){
 
     var returnMatrix = [[[String]]]()
     let firstRow = inputMatrix[0]
 
     print("Trying to open the file: \(validationSetFile) ... ", terminator:"")
 
-    guard let fileContent = try? NSString(contentsOfFile: validationSetFile, encoding: NSUTF8StringEncoding) else {
+    guard let fileContent = try? NSString(contentsOfFile: validationSetFile, encoding: String.Encoding.utf8.rawValue) else {
         return nil
     }
 
@@ -113,10 +113,10 @@ func processValidationSet(validationSetFile: String) -> ([[[String]]]?){
     printfulldebug("\(ANSI.Cyan)######END OF FILE CONTENT######\(ANSI.Reset)\n")
 
     let delimiter = "\n"
-    let linesList = fileContent.componentsSeparatedByString(delimiter)
+    let linesList = fileContent.components(separatedBy: delimiter)
 
     // last line is blank
-    for (index, line) in linesList.enumerate() where index < linesList.count-1 {
+    for (index, line) in linesList.enumerated() where index < linesList.count-1 {
 
         var tmpArray = [String]()
         printfulldebug("\(ANSI.Cyan)~~~~~~~~~~~~~~~~BEGINNING OF LINE~~~~~~~~~~~~~~~~\(ANSI.Reset)")
@@ -126,7 +126,7 @@ func processValidationSet(validationSetFile: String) -> ([[[String]]]?){
         printfulldebug("\(ANSI.Yellow)$$$$$$--END OF IT--$$$$$$$\(ANSI.Reset)")
 
         let delimiter = ","
-        let atributeList = line.componentsSeparatedByString(delimiter)
+        let atributeList = line.components(separatedBy: delimiter)
 
         printfulldebug(atributeList)
 
@@ -146,7 +146,7 @@ func processValidationSet(validationSetFile: String) -> ([[[String]]]?){
 
 }
 
-func matrixDescretization(inputMatrix: [[String]]) -> ([[String]]) {
+func matrixDescretization(_ inputMatrix: [[String]]) -> ([[String]]) {
 
     var matrix = inputMatrix
 
@@ -156,7 +156,7 @@ func matrixDescretization(inputMatrix: [[String]]) -> ([[String]]) {
 
         var arrayOfDoubles = [Double]()
 
-        for (index,line) in matrix.enumerate() where index != 0 {
+        for (index,line) in matrix.enumerated() where index != 0 {
             guard let double = Double(line[colIndex]) else {
                 print("Something went wrong while trying to convert a string to double in the Column \(matrix[0][colIndex])!")
                 continue rowLoop
@@ -184,7 +184,7 @@ func matrixDescretization(inputMatrix: [[String]]) -> ([[String]]) {
         printdebug(kMeanCalculator.centroids)
         printdebug("------------------------------------------------------")
 
-        for (index,centro) in kMeanCalculator.centroids.enumerate() {
+        for (index,centro) in kMeanCalculator.centroids.enumerated() {
             kMeanCalculator.labels[index] = String(centro.data[0].roundToPlaces(2))
         }
 
@@ -205,11 +205,11 @@ func matrixDescretization(inputMatrix: [[String]]) -> ([[String]]) {
 
 }
 
-func descretizeValidationSet(inputMatrix: [[[String]]]) -> ([[[String]]]){
+func descretizeValidationSet(_ inputMatrix: [[[String]]]) -> ([[[String]]]){
 
     var finalMatrix = inputMatrix
 
-    for (matrixNumber,matrix) in inputMatrix.enumerate() {
+    for (matrixNumber,matrix) in inputMatrix.enumerated() {
 
         let numOfCols = matrix[0].count
 
@@ -235,7 +235,7 @@ func descretizeValidationSet(inputMatrix: [[[String]]]) -> ([[[String]]]){
 
 }
 
-func findNearestLabel(doubleValue : Double, colName: String) -> (String) {
+func findNearestLabel(_ doubleValue : Double, colName: String) -> (String) {
 
     var nearestLabel = ""
     var minDif = Double.infinity
