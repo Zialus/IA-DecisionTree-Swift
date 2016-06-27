@@ -3,7 +3,12 @@ import Foundation
 func processFile() {
 
     print("Trying to open the file: \(filelocation) ... ", terminator:"")
-    let fileContent = try? NSString(contentsOfFile: filelocation, encoding: String.Encoding.utf8.rawValue)
+
+    #if os(Linux)
+        let fileContent = try? NSString(contentsOfFile: filelocation, encoding: NSUTF8StringEncoding)
+    #else
+        let fileContent = try? NSString(contentsOfFile: filelocation, encoding: String.Encoding.utf8.rawValue)
+    #endif
 
     if fileContent == nil {
         print("\(Colors.Red("Something went wrong while trying to open that file!"))")
@@ -102,9 +107,17 @@ func processValidationSet(_ validationSetFile: String) -> ([[[String]]]?){
 
     print("Trying to open the file: \(validationSetFile) ... ", terminator:"")
 
-    guard let fileContent = try? NSString(contentsOfFile: validationSetFile, encoding: String.Encoding.utf8.rawValue) else {
-        return nil
-    }
+    #if os(Linux)
+        guard let fileContent = try? NSString(contentsOfFile: validationSetFile, encoding: NSUTF8StringEncoding) else {
+            return nil
+        }
+    #else
+        guard let fileContent = try? NSString(contentsOfFile: validationSetFile, encoding: String.Encoding.utf8.rawValue) else {
+            return nil
+        }
+    #endif
+
+
 
     print("\(Colors.Green("File opened successfuly!"))")
 
@@ -151,7 +164,7 @@ func matrixDescretization(_ inputMatrix: [[String]]) -> ([[String]]) {
     var matrix = inputMatrix
 
     let numOfCols = matrix[0].count
-    
+
     rowLoop: for colIndex in 1..<numOfCols-1 {
 
         var arrayOfDoubles = [Double]()
