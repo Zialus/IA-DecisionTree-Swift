@@ -10,3 +10,6 @@ install:
 script:
   - make
   - make test
+addons:
+    code_climate:
+        repo_token: 4a50f87b4b62b83f0e28403ae130ffc297479000b4b16962cb8387dfcb908413
