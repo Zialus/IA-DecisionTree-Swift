@@ -4,11 +4,7 @@ func processFile() {
 
     print("Trying to open the file: \(filelocation) ... ", terminator:"")
 
-    #if os(Linux)
-        let fileContent = try? NSString(contentsOfFile: filelocation, encoding: NSUTF8StringEncoding)
-    #else
-        let fileContent = try? NSString(contentsOfFile: filelocation, encoding: String.Encoding.utf8.rawValue)
-    #endif
+    let fileContent = try? NSString(contentsOfFile: filelocation, encoding: String.Encoding.utf8.rawValue)
 
     if fileContent == nil {
         print("\(Colors.Red("Something went wrong while trying to open that file!"))")
@@ -107,17 +103,9 @@ func processValidationSet(_ validationSetFile: String) -> ([[[String]]]?){
 
     print("Trying to open the file: \(validationSetFile) ... ", terminator:"")
 
-    #if os(Linux)
-        guard let fileContent = try? NSString(contentsOfFile: validationSetFile, encoding: NSUTF8StringEncoding) else {
-            return nil
-        }
-    #else
-        guard let fileContent = try? NSString(contentsOfFile: validationSetFile, encoding: String.Encoding.utf8.rawValue) else {
-            return nil
-        }
-    #endif
-
-
+    guard let fileContent = try? NSString(contentsOfFile: validationSetFile, encoding: String.Encoding.utf8.rawValue) else {
+        return nil
+    }
 
     print("\(Colors.Green("File opened successfuly!"))")
 
@@ -228,14 +216,14 @@ func descretizeValidationSet(_ inputMatrix: [[[String]]]) -> ([[[String]]]){
 
         colLoop: for colIndex in 1..<numOfCols-1 {
 
-                guard let double = Double(matrix[1][colIndex]) else {
-                    print("Something went wrong while trying to convert a string to double in the Column \(matrix[0][colIndex])!")
-                    continue colLoop
-                }
+            guard let double = Double(matrix[1][colIndex]) else {
+                print("Something went wrong while trying to convert a string to double in the Column \(matrix[0][colIndex])!")
+                continue colLoop
+            }
 
-                let descretizedDouble = findNearestLabel(double, colName: matrix[0][colIndex])
+            let descretizedDouble = findNearestLabel(double, colName: matrix[0][colIndex])
 
-                finalMatrix[matrixNumber][1][colIndex] = descretizedDouble
+            finalMatrix[matrixNumber][1][colIndex] = descretizedDouble
         }
 
 
