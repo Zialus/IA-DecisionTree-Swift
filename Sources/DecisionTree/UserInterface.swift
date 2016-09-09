@@ -40,31 +40,31 @@ func welcomeMessage() {
 
 func proccessCmdLineArgs() -> () {
 
-    if Process.arguments.count < 2 {
+    if CommandLine.arguments.count < 2 {
         print()
         print("\(Colors.Red("Too few arguments!")) Try launching with the argument \"--help\" ")
         print()
         exit(1)
-    } else if Process.arguments[1] == "--help" {
+    } else if CommandLine.arguments[1] == "--help" {
 
         printInstructions()
         exit(0)
 
-    } else if Process.arguments.count == 2 {
+    } else if CommandLine.arguments.count == 2 {
 
         print("All debug functionality is turned \(Colors.Red("OFF"))!")
         print()
-        filelocation = Process.arguments[1]
+        filelocation = CommandLine.arguments[1]
 
-    } else if Process.arguments.count > 3 {
+    } else if CommandLine.arguments.count > 3 {
         print()
         print("\(Colors.Red("Too many arguments!")) Try launching with the argument \"--help\" ")
         print()
         exit(1)
-    } else if Process.arguments.count == 3 {
+    } else if CommandLine.arguments.count == 3 {
 
-        filelocation = Process.arguments[1]
-        let onlyArg = Process.arguments[2]
+        filelocation = CommandLine.arguments[1]
+        let onlyArg = CommandLine.arguments[2]
 
         switch onlyArg {
         case "debug":

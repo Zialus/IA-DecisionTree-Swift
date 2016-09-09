@@ -45,7 +45,7 @@ class KMeans<Label: Hashable> {
             // Take the average of all the data points that belong to each centroid.
             // This moves the centroid to a new position.
             let newCenters = classification.map { assignedPoints in
-                assignedPoints.reduce(zeroVector, combine: +) / Double(assignedPoints.count)
+                assignedPoints.reduce(zeroVector, +) / Double(assignedPoints.count)
             }
 
             // Find out how far each centroid moved since the last iteration. If it's
