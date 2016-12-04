@@ -64,8 +64,7 @@ func getGain(atribute: String, examples: [[String]]) -> (Double) {
             //TODO: This is kinda hacky but i won't be fixing it for now
             if denominatorInternal != 0 {
                 listOfThingsToSendToEntropyCalc.append( Double(count)/denominatorInternal )
-            }
-            else{
+            } else {
                 listOfThingsToSendToEntropyCalc.append(0.0)
             }
         }
@@ -333,7 +332,7 @@ func searchForClass(exampleMatrix: [[String]], currentNode: Node) -> (String) {
 
     case .Value(let leaf):
         return leaf.goal
-        
+
     }
-    
+
 }

@@ -96,7 +96,7 @@ func processMatrix(_ matrix: [[String]]) -> () {
 
 }
 
-func processValidationSet(_ validationSetFile: String) -> ([[[String]]]?){
+func processValidationSet(_ validationSetFile: String) -> ([[[String]]]?) {
 
     var returnMatrix = [[[String]]]()
     let firstRow = inputMatrix[0]
@@ -135,7 +135,7 @@ func processValidationSet(_ validationSetFile: String) -> ([[[String]]]?){
             tmpArray.append(atribute)
         }
 
-        let tmpMatrix: [[String]] = [firstRow,tmpArray]
+        let tmpMatrix: [[String]] = [firstRow, tmpArray]
         returnMatrix.append(tmpMatrix)
 
 
@@ -157,7 +157,7 @@ func matrixDescretization(_ inputMatrix: [[String]]) -> ([[String]]) {
 
         var arrayOfDoubles = [Double]()
 
-        for (index,line) in matrix.enumerated() where index != 0 {
+        for (index, line) in matrix.enumerated() where index != 0 {
             guard let double = Double(line[colIndex]) else {
                 print("Something went wrong while trying to convert a string to double in the Column \(matrix[0][colIndex])!")
                 continue rowLoop
@@ -176,16 +176,16 @@ func matrixDescretization(_ inputMatrix: [[String]]) -> ([[String]]) {
             pointsVector.append(Vector([elem]))
         }
 
-        let kMeanCalculator = KMeans<String>(labels: ["Group1","Group2","Group3"])
+        let kMeanCalculator = KMeans<String>(labels: ["Group1", "Group2", "Group3"])
 
-        kMeanCalculator.trainCenters(pointsVector,convergeDistance: 0.001)
+        kMeanCalculator.trainCenters(pointsVector, convergeDistance: 0.001)
 
         printdebug("\nThe Centroids are:")
         printdebug("------------------------------------------------------")
         printdebug(kMeanCalculator.centroids)
         printdebug("------------------------------------------------------")
 
-        for (index,centro) in kMeanCalculator.centroids.enumerated() {
+        for (index, centro) in kMeanCalculator.centroids.enumerated() {
             kMeanCalculator.labels[index] = String(centro.data[0].roundToPlaces(2))
         }
 
@@ -206,11 +206,11 @@ func matrixDescretization(_ inputMatrix: [[String]]) -> ([[String]]) {
 
 }
 
-func descretizeValidationSet(_ inputMatrix: [[[String]]]) -> ([[[String]]]){
+func descretizeValidationSet(_ inputMatrix: [[[String]]]) -> ([[[String]]]) {
 
     var finalMatrix = inputMatrix
 
-    for (matrixNumber,matrix) in inputMatrix.enumerated() {
+    for (matrixNumber, matrix) in inputMatrix.enumerated() {
 
         let numOfCols = matrix[0].count
 
@@ -236,7 +236,7 @@ func descretizeValidationSet(_ inputMatrix: [[[String]]]) -> ([[[String]]]){
 
 }
 
-func findNearestLabel(_ doubleValue : Double, colName: String) -> (String) {
+func findNearestLabel(_ doubleValue: Double, colName: String) -> (String) {
 
     var nearestLabel = ""
     var minDif = Double.infinity
@@ -244,7 +244,7 @@ func findNearestLabel(_ doubleValue : Double, colName: String) -> (String) {
 
     for value in values {
         let dif = abs(Double(value)! - doubleValue)
-        if dif < minDif{
+        if dif < minDif {
             nearestLabel = value
             minDif = dif
         }
