@@ -5,7 +5,7 @@ all:
 	mv ./.build/release/DecisionTree .
 
 clean:
-	swift build --clean
+	swift package clean
 	if [ -f ./DecisionTree ]; then rm ./DecisionTree; fi
 
 test: testWeather testIris
