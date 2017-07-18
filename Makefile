@@ -1,20 +1,21 @@
 DEBUGMODE = fulldebug
+EXEC = DecisionTree
 
 all:
-	swift build -Xswiftc -O -c release
-	mv ./.build/release/DecisionTree .
+	swift build -Xswiftc -O -Xswiftc -wmo -c release
+	cp ./.build/release/$(EXEC) .
 
 clean:
 	swift package clean
-	if [ -f ./DecisionTree ]; then rm ./DecisionTree; fi
+	if [ -f ./$(EXEC) ]; then rm ./$(EXEC); fi
 
 test: testWeather testIris
 
 testIris:
-	./DecisionTree Input/iris.csv $(DEBUGMODE) < Input/input_commands_iris.txt
+	time ./DecisionTree Input/iris.csv $(DEBUGMODE) < Input/input_commands_iris.txt
 
 testRestaurant:
-	./DecisionTree Input/restaurant.csv $(DEBUGMODE) < Input/input_commands_restaurant.txt
+	time ./DecisionTree Input/restaurant.csv $(DEBUGMODE) < Input/input_commands_restaurant.txt
 
 testWeather:
-	./DecisionTree Input/weather.csv $(DEBUGMODE) < Input/input_commands_weather.txt
+	time ./DecisionTree Input/weather.csv $(DEBUGMODE) < Input/input_commands_weather.txt
