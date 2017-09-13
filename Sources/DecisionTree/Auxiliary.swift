@@ -1,12 +1,12 @@
 import Foundation
 
-func printdebug(_ string: Any) -> () {
+func printdebug(_ string: Any) {
     if DEBUG == true {
         print(string)
     }
 }
 
-func printfulldebug(_ string: Any) -> () {
+func printfulldebug(_ string: Any) {
     if FULLDEBUG == true {
         print(string)
     }
