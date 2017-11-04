@@ -12,10 +12,10 @@ clean:
 test: testWeather testIris
 
 testIris:
-	time ./DecisionTree Input/iris.csv $(DEBUGMODE) < Input/input_commands_iris.txt
+	time ./$(EXEC) Input/iris.csv $(DEBUGMODE) < Input/input_commands_iris.txt
 
 testRestaurant:
-	time ./DecisionTree Input/restaurant.csv $(DEBUGMODE) < Input/input_commands_restaurant.txt
+	time ./$(EXEC) Input/restaurant.csv $(DEBUGMODE) < Input/input_commands_restaurant.txt
 
 testWeather:
-	time ./DecisionTree Input/weather.csv $(DEBUGMODE) < Input/input_commands_weather.txt
+	time ./$(EXEC) Input/weather.csv $(DEBUGMODE) < Input/input_commands_weather.txt
