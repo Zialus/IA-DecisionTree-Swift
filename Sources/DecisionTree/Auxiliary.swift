@@ -25,7 +25,7 @@ func crossPlatformRandom(upperBound num: Int) -> Int {
 
     #if os(Linux)
         srandom(UInt32(time(nil)))
-        rand = (UInt32(random()) % (num))
+        rand = (UInt32(random()) % UInt32(num))
     #else
         rand = arc4random_uniform(UInt32(num))
     #endif
