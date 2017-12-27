@@ -13,9 +13,9 @@ enum Node {
             }
 
             if tree.level == 0 {
-            print("<\(tree.atribute)>:")
+                print("<\(tree.atribute)>:")
             } else {
-            print("\(tree.edgeName): <\(tree.atribute)>:")
+                print("\(tree.edgeName): <\(tree.atribute)>:")
             }
 
 

@@ -151,7 +151,7 @@ func ID3(examples: [[String]], targetAtribute: String, atributes: Set<String>, l
         let node = Node.Value(leaf: Leaf(goal:label, amount: number, level: level))
 
         printfulldebug("----------FIRST IF START-----------")
-         if FULLDEBUG { node.formatedPrint() }
+        if FULLDEBUG { node.formatedPrint() }
         printfulldebug("------------------------------------\n\n")
 
         return node
