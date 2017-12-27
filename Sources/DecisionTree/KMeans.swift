@@ -3,7 +3,7 @@ import Foundation
 class KMeans<Label: Hashable> {
     let numCenters: Int
     var labels: [Label]
-    var centroids = [Vector]()
+    private(set) var centroids = [Vector]()
 
     init(labels: [Label]) {
         assert(labels.count > 1, "Exception: KMeans with less than 2 centers.")
@@ -86,14 +86,7 @@ func reservoirSample<T>(_ samples: [T], k: Int) -> [T] {
 
     // Randomly replace elements from remaining pool
     for i in k..<samples.count {
-
-        #if os(Linux)
-            srandom(UInt32(time(nil)))
-            let j = Int(random() % (i + 1))
-        #else
-            let j = Int(arc4random_uniform(UInt32(i + 1)))
-        #endif
-
+        let j = crossPlatformRandom(upperBound: i + 1)
         if j < k {
             result[j] = samples[i]
         }
