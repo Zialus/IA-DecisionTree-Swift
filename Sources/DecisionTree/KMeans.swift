@@ -86,7 +86,7 @@ func reservoirSample<T>(_ samples: [T], k: Int) -> [T] {
 
     // Randomly replace elements from remaining pool
     for i in k..<samples.count {
-        let j = crossPlatformRandom(upperBound: i + 1)
+        let j = Int.random(in: 0 ..< i+1)
         if j < k {
             result[j] = samples[i]
         }

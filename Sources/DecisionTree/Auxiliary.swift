@@ -19,16 +19,3 @@ extension Double {
         return (self * divisor).rounded() / divisor
     }
 }
-
-func crossPlatformRandom(upperBound num: Int) -> Int {
-    let rand: UInt32
-
-    #if os(Linux)
-        srandom(UInt32(time(nil)))
-        rand = (UInt32(random()) % UInt32(num))
-    #else
-        rand = arc4random_uniform(UInt32(num))
-    #endif
-
-    return Int(rand)
-}
