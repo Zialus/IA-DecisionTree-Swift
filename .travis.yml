@@ -4,10 +4,23 @@ env: SWIFT_VERSION=4.2.1
 matrix:
   include:
     - os: linux
-      sudo: required
       dist: xenial
+
     - os: osx
       osx_image: xcode10.1
+
+    # SONARCLOUD
+    - os: linux
+      dist: xenial
+      addons:
+        sonarcloud:
+          organization: "zialus-github"
+          token:
+            secure: "RqZe8JuBpC9kD53hEaCP95oPNeJACurMWioDthSK6S4khoDfyQVM030HMlLcqP+/8IyJa4q+FdXlnh29EINTBJh0idpU3K99pzHYPUPzNh5EwFuBee5Sd2aKCTIqOU7pITLMwV4DhUD2JL5rJaxaatbAhpbfhbZExpSX6foe/0HyBOv1vOqmPcOqrUDyBWsi9oUUX32omjaM92Dbds3vwB4ma2odhLlnDm6adZ+3wL2TFPdBks3LtfwwNTIfWVp9mBpfiNVzHGL43oG7JFG0ATF9B2XqydefRBZZl/UFRsuSLHN/oxGQb9bumW5q7YQU4+9ZU78XSJfImf1OIeXqpPrQazq6MnM9H7TSLVaklOR7OBhpGa6BxXOsv1nCt0oaZVw5mK7lxp35DLcxBbiELnfwbJTs99EP7On5Hvr5/sUJueSD0JJSXAIscsalI7v/oCdP7+os5fhh9R/8vyMDbPbQlvf3tko2hsL9Nr0gkVHCiP9MZdnTHSwehXeCY/2CX890C5uaDEsMQaaHqOTduCeEoUvyFodn2aN8PCkWSG7LMxkRMs0G4U/ebVX/sR7stlvsMUgKw5N7ZBitZm3yfPtjhBeG9QcKAzT7IyZfiYWFZMQDzx2JCxAfiYWsOi4o9k88MwsbgPQ81LPqVf0CKSOnb18N6eVss6+jrKQtnlg="
+      script:
+        - sonar-scanner
+      env:
+        - SONAR_CLOUD="YUP"
 
 install:
   - eval "$(curl -sL https://swiftenv.fuller.li/install.sh)"
