@@ -2,7 +2,7 @@ DEBUGMODE = fulldebug
 EXEC = DecisionTree
 
 all:
-	swift build -Xswiftc -O -Xswiftc -wmo -c release
+	swift build -c release
 	cp ./.build/release/$(EXEC) .
 
 clean:
