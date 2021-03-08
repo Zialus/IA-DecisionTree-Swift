@@ -116,7 +116,7 @@ func getEntropyNumbers(atribute: String, examples: [[String]]) -> ([String:[Stri
         }
     }
 
-    let col = examples[0].index(of: atribute)!
+    let col = examples[0].firstIndex(of: atribute)!
     let lastCol = examples[0].count-1
     let lastRow = examples.count-1
 
@@ -244,7 +244,7 @@ func exampleSubset(examples: [[String]], atributeName: String, atributeValue: St
 
     var examplesSubset: [[String]] = [examples[0]]
 
-    let indexOfWantedAtribute = examples[0].index(of: atributeName)!
+    let indexOfWantedAtribute = examples[0].firstIndex(of: atributeName)!
 
     for (indexOfExample, example) in examples.enumerated() where indexOfExample > 0 {
         if example[indexOfWantedAtribute] == atributeValue {
@@ -314,7 +314,7 @@ func searchForClass(exampleMatrix: [[String]], currentNode: Node) -> (String) {
     switch currentNode {
     case .Atribute(let tree):
 
-        let indexOfAtribute = exampleMatrix[0].index(of: tree.atribute)!
+        let indexOfAtribute = exampleMatrix[0].firstIndex(of: tree.atribute)!
         let valueOfcurrentAtribute = exampleMatrix[1][indexOfAtribute]
 
         var nextNode: Node?
